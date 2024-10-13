@@ -1,0 +1,453 @@
+#root {
+  margin: 0;
+  padding: 0;
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Orbitron", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  background-color: black !important;
+}
+
+.NavBar {
+  background-color: #8a2be2 !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url(/images/homepage1_114609.ico) !important;
+  height: 24px !important;
+  width: 24px !important;
+}
+
+.Navlink {
+  color: white !important;
+}
+
+.Navlink:hover {
+  color: black !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.h1 {
+  color: #8a2be2 !important;
+  text-align: center;
+  padding: 20px 0 20px 0;
+}
+
+.seccion {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.titulo {
+  transition: filter 0.3s ease;
+  color: black !important;
+}
+
+.titulo:hover {
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+
+.titulo img {
+  transition: filter 0.3s ease;
+}
+
+.titulo:hover img {
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+}
+
+.header {
+  text-align: center;
+}
+
+.portada {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: cover;
+}
+
+/* ESTILOS PARA GIF BART Y TEXTO */
+.gif-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: center;
+  margin: 30px;
+}
+
+/* Estilo para el contenedor del GIF */
+.gif-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* FIN DEL LAYOUT */
+
+.text-container {
+  background-color: #000000;
+  color: #ddd;
+  padding: 10px;
+  max-width: 600px;
+  height: 100%;
+  margin: 0 auto;
+  line-height: 1.1;
+}
+
+.text-container h2 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #8a2be2;
+}
+
+.text-container p {
+  font-size: 1rem;
+  margin: 18px 0;
+}
+
+.text-container ul {
+  padding-left: 20px;
+}
+
+.text-container li {
+  margin-bottom: 10px;
+}
+
+strong {
+  color: #8a2be2;
+}
+
+.strong {
+  color: #000000;
+}
+
+/* ESTILOS PARA ARTICLE */
+
+article {
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+article h2 {
+  color: #8a2be2;
+}
+
+.history-section,
+.tips-section,
+.stats-section {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* LISTAS */
+.history-section ul,
+.tips-section ol,
+.stats-section ul {
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 1.1em;
+}
+
+.history-section li,
+.tips-section li,
+.stats-section li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* LISTAS OL Y LI*/
+.history-section ul li::before,
+.stats-section ul li::before,
+.tips-section ol li::before {
+  content: "*";
+  color: #6a0dad;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.footer {
+  background-color: #8a2be2;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.social-links {
+  margin-top: 10px;
+}
+
+.social-links a {
+  color: black;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: white;
+}
+
+/* HeroSection*/
+.hero-section {
+  background-image: url("/gif/gif bienvenida.gif");
+  background-size: cover;
+  background-position: center;
+  height: 570px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.hero-content h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 0 0 20px;
+}
+
+.explore-button {
+  background-color: #8a2be2;
+  color: white;
+  padding: 10px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.explore-button:hover {
+  background-color: black;
+  color: #8a2be2;
+}
+
+/* ESTILOS DE LOS PRODUCTOS */
+
+.item-list-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.item-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px; 
+  width: 100%;
+  margin-top: 20px;
+}
+
+.item-card {
+  text-decoration: none;
+  color: inherit;
+  background-color: #1a1a1a;
+  border: 1px solid #8a2be2;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+.item-card:hover {
+  box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+  transform: translateY(-5px);
+}
+
+.item-link {
+  text-decoration: none;
+}
+
+.item-title {
+  color: #8a2be2;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.item-description {
+  color: #b0b0b0;
+  font-size: 0.9em;
+  margin-bottom: 12px;
+  flex-grow: 1;
+  text-decoration: none;
+}
+
+.item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+.item-price {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.item-buy-button {
+  background-color: #8a2be2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.item-buy-button:hover {
+  background-color: #9f3eff;
+}
+
+.item-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+
+.item-card a,
+.item-card a:hover,
+.item-card a:focus,
+.item-card a:active {
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    background-size: contain;
+    margin: 0;
+    padding: 0;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .header {
+    display: none;
+  }
+
+  .h1 {
+    font-size: 1.4rem !important;
+  }
+
+  .gif-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gif-container,
+  .text-container {
+    text-align: center;
+  }
+
+  .gif-container img {
+    display: none;
+  }
+
+  .text-container {
+    background-color: black;
+    padding: 40px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .text-container h2 {
+    font-size: 1.3rem;
+    color: #8a2be2;
+    margin-bottom: 15px;
+  }
+
+  .text-container p {
+    font-size: 1rem;
+    margin: 15px 0;
+  }
+
+  .text-container ul {
+    padding-left: 20px;
+  }
+
+  .text-container li {
+    margin-bottom: 10px;
+  }
+
+  .history-section,
+  .tips-section,
+  .stats-section {
+    padding: 15px;
+  }
+
+  .history-section h2,
+  .tips-section h2,
+  .stats-section h2 {
+    font-size: 1.5em;
+    color: #8a2be2;
+  }
+
+  .hero-section {
+    background-image: url("/gif/gif bienvenida.gif");
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+  }
+
+  .hero-content h2 {
+    font-size: 1rem;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  .item-card {
+    width: calc(50% - 10px);
+  }
+
+  .item-card {
+    width: 100%;
+    margin: 10px;
+  }
+  .item-image {
+    height: auto;
+  }
+  .item-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+    justify-content: center;
+  }
+}

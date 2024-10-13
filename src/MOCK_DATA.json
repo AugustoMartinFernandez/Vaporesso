@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "verykool",
+    "description": "a ipsum integer a nibh in quis justo maecenas rhoncus aliquam",
+    "price": "$46.83",
+    "picturUrl": "http://dummyimage.com/300x300.png/cc0000/ffffff"
+  },
+  {
+    "id": 2,
+    "title": "Samsung",
+    "description": "fusce congue diam id ornare imperdiet sapien urna pretium nisl",
+    "price": "$60.42",
+    "picturUrl": "http://dummyimage.com/300x300.png/5fa2dd/ffffff"
+  },
+  {
+    "id": 3,
+    "title": "VK",
+    "description": "est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia",
+    "price": "$95.32",
+    "picturUrl": "http://dummyimage.com/300x300.png/ff4444/ffffff"
+  },
+  {
+    "id": 4,
+    "title": "LG",
+    "description": "nonummy integer non velit donec diam neque vestibulum eget vulputate ut ultrices",
+    "price": "$30.29",
+    "picturUrl": "http://dummyimage.com/300x300.png/ff4444/ffffff"
+  },
+  {
+    "id": 5,
+    "title": "Siemens",
+    "description": "id mauris vulputate elementum nullam varius nulla facilisi cras non velit nec nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus vel nulla",
+    "price": "$39.07",
+    "picturUrl": "http://dummyimage.com/300x300.png/5fa2dd/ffffff"
+  },
+  {
+    "id": 6,
+    "title": "Bird",
+    "description": "sapien urna pretium nisl ut volutpat sapien arcu sed augue aliquam erat volutpat in congue etiam justo",
+    "price": "$11.85",
+    "picturUrl": "http://dummyimage.com/300x300.png/dddddd/000000"
+  },
+  {
+    "id": 7,
+    "title": "Celkon",
+    "description": "orci pede venenatis non sodales sed tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar",
+    "price": "$99.77",
+    "picturUrl": "http://dummyimage.com/300x300.png/cc0000/ffffff"
+  },
+  {
+    "id": 8,
+    "title": "O2",
+    "description": "id justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci",
+    "price": "$79.20",
+    "picturUrl": "http://dummyimage.com/300x300.png/cc0000/ffffff"
+  },
+  {
+    "id": 9,
+    "title": "Benefon",
+    "description": "sagittis dui vel nisl duis ac nibh fusce lacus purus aliquet at feugiat non pretium quis lectus suspendisse potenti in eleifend",
+    "price": "$84.67",
+    "picturUrl": "http://dummyimage.com/300x300.png/cc0000/ffffff"
+  },
+  {
+    "id": 10,
+    "title": "BLU",
+    "description": "suscipit nulla elit ac nulla sed vel enim sit amet nunc viverra dapibus nulla suscipit ligula in lacus curabitur at ipsum ac tellus semper interdum mauris ullamcorper purus sit amet",
+    "price": "$44.94",
+    "picturUrl": "http://dummyimage.com/300x300.png/dddddd/000000"
+  }
+]
