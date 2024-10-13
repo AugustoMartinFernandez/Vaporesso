@@ -1,119 +1,20 @@
-# Vapeadores vs. Cigarrillos - Sitio Informativo
+# Vapeo 3.5
 
-Este proyecto es un sitio web informativo que compara los vapeadores con los cigarrillos tradicionales, desarrollado con React y Vite.
-
-## Descripción
-
-Este sitio web ofrece información sobre las ventajas de los vapeadores frente a los cigarrillos, incluyendo:
-
-- Comparación visual entre vapeadores y cigarrillos
-- Beneficios clave de los vapeadores
-- Historia y evolución del vapeo
-- Consejos para nuevos usuarios de vapeadores
-- Estadísticas interesantes sobre el vapeo
-
-## Tecnologías Utilizadas
-
-- React
-- Vite
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-
-## Instalación
-
-1. Clona este repositorio
-   ```
-   git clone https://github.com/tu-usuario/vapeadores-vs-cigarrillos.git
-   ```
-2. Navega al directorio del proyecto
-   ```
-   cd vapeadores-vs-cigarrillos
-   ```
-3. Instala las dependencias
-   ```# Vapeadores vs. Cigarrillos - Sitio Informativo
-
-Este proyecto es un sitio web informativo que compara los vapeadores con los cigarrillos tradicionales, desarrollado con React y Vite.
-
-## Descripción
-
-Este sitio web ofrece información sobre las ventajas de los vapeadores frente a los cigarrillos, incluyendo:
-
-- Comparación visual entre vapeadores y cigarrillos
-- Beneficios clave de los vapeadores
-- Historia y evolución del vapeo
-- Consejos para nuevos usuarios de vapeadores
-- Estadísticas interesantes sobre el vapeo
-
-## Tecnologías Utilizadas
-
-- React
-- Vite
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-
-## Instalación
-
-1. Clona este repositorio
-   ```
-   git clone https://github.com/tu-usuario/vapeadores-vs-cigarrillos.git
-   ```
-2. Navega al directorio del proyecto
-   ```
-   cd vapeadores-vs-cigarrillos
-   ```
-3. Instala las dependencias
-   ```
-   npm install
-   ```
-4. Inicia el servidor de desarrollo
-   ```
-   npm run dev
-   ```
-
-## Estructura del Proyecto
-
-- `index.html`: Página principal del sitio
-- `public/images/`: Directorio de imágenes, incluyendo la comparación visual
-- `src/`: Código fuente de React (componentes, estilos, etc.)
+¡Bienvenido a **Vapeo 3.5**! Esta aplicación está diseñada para ofrecer una experiencia completa en el mundo del vapeo, donde los usuarios pueden explorar productos, conocer más sobre la evolución del vapeo, y obtener consejos útiles si están comenzando.
 
 ## Características
 
-- Diseño responsive
-- Secciones informativas sobre vapeadores y su comparación con cigarrillos
-- Enlaces a redes sociales en el pie de página
+- **Explorar Productos**: Los usuarios pueden navegar por diferentes categorías de productos, como recargables, descartables y puff.
+- **Vista Detallada de Productos**: Cada producto tiene una tarjeta (card) con su imagen, descripción y precio. Los usuarios pueden hacer clic en el producto para ver más detalles.
+- **Historia del Vapeo**: Información sobre la evolución del vapeo desde sus inicios hasta la actualidad.
+- **Consejos para Nuevos Vapers**: Una lista de consejos prácticos para quienes empiezan a vapear.
+- **Datos Interesantes**: Estadísticas relevantes sobre el mundo del vapeo, como el número de usuarios y la cantidad de sabores disponibles.
 
-## Contribuir
+## Tecnologías Utilizadas
 
-Las contribuciones son bienvenidas. Por favor, abre un issue para discutir cambios mayores antes de hacer un pull request.
+- **React**: Para la creación de componentes y el manejo del estado.
+- **React Router**: Para la navegación entre páginas y categorías.
+- **Bootstrap**: Para la creación de una barra de navegación (NavBar) y otros estilos.
+- **CSS personalizado**: Para los estilos visuales adicionales.
+- **Iconos**: Se utilizaron iconos de la librería `react-icons`.
 
-## Licencia
-
-© 2024 By TinchoDev. Todos los derechos reservados.
-   npm install
-   ```
-4. Inicia el servidor de desarrollo
-   ```
-   npm run dev
-   ```
-
-## Estructura del Proyecto
-
-- `index.html`: Página principal del sitio
-- `public/images/`: Directorio de imágenes, incluyendo la comparación visual
-- `src/`: Código fuente de React (componentes, estilos, etc.)
-
-## Características
-
-- Diseño responsive
-- Secciones informativas sobre vapeadores y su comparación con cigarrillos
-- Enlaces a redes sociales en el pie de página
-
-## Contribuir
-
-Las contribuciones son bienvenidas. Por favor, abre un issue para discutir cambios mayores antes de hacer un pull request.
-
-## Licencia
-
-© 2024 By TinchoDev. Todos los derechos reservados.
