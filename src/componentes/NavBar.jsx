@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
+import ThemeToggle from "./ThemeToggle"; // Importa el componente
+import { ThemeContext } from "./ThemeContext";
 
 const NavBar = () => {
+  const { isDark } = useContext(ThemeContext);
+
   return (
-    <Navbar expand="lg" className="NavBar">
+    <Navbar expand="lg" className={`NavBar ${isDark ? "" : "light-theme"}`}>
       <Container>
         <Navbar.Brand as={Link} to="/" className="titulo">
           Vapeo 3.5{" "}
@@ -27,11 +31,17 @@ const NavBar = () => {
               Puff
             </Nav.Link>
           </Nav>
+
+          {/* Colocamos el botón de cambio de tema aquí */}
+          <ThemeToggle />
+
+          <CartWidget />
         </Navbar.Collapse>
-        <CartWidget />
       </Container>
     </Navbar>
   );
 };
 
 export default NavBar;
+
+

@@ -10,7 +10,34 @@
   min-height: 100vh;
 }
 
-html,
+/* Estilo base para el botón de cambio de tema */
+.theme-toggle-btn {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem; 
+  cursor: pointer;
+  padding: 5px 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 30%;
+}
+
+/* Estilo en modo oscuro */
+.theme-toggle-btn.dark {
+  color: #fdd835 !important; 
+}
+
+/* Estilo en modo claro */
+.theme-toggle-btn.light {
+  color: #6a0dad !important;
+}
+
+/* Hover para ambos modos */
+.theme-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #fff;
+}
+
+/* Modo oscuro por defecto */
 body {
   margin: 0;
   padding: 0;
@@ -19,7 +46,9 @@ body {
   font-weight: 700;
   font-style: normal;
   background-color: black !important;
+  color: white !important;
   height: 100%;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .App {
@@ -53,26 +82,77 @@ main {
   border: none !important;
 }
 
-.h1 {
-  color: #8a2be2 !important;
+.light-theme .Navlink:hover {
+  color: #00ff00 !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.header {
+  text-align: center;
+}
+
+body.light-theme {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.NavBar {
+  background-color: #8a2be2 !important;
+}
+
+.NavBar.light-theme {
+  background-color: black !important;
+  color: #000000 !important;
+}
+
+.footer {
+  background-color: #8a2be2;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.footer.light-theme {
+  background-color: black !important;
+  color: white !important;
+}
+
+.portada {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: cover;
+}
+
+h1 {
+  color: white !important;
   text-align: center;
   padding: 20px 0 20px 0;
 }
 
-.seccion {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 100vh;
+.light-theme h1 {
+  color: black !important;
+  text-align: center;
+  padding: 20px 0 20px 0;
 }
 
 .titulo {
-  transition: filter 0.3s ease;
+  transition: filter 0.2s ease;
   color: black !important;
+  font-weight: bolder;
+}
+
+.light-theme .titulo {
+  color: #00ff00 !important;
 }
 
 .titulo:hover {
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
+  filter: drop-shadow(1px 1px 1px rgb(96, 6, 96));
 }
 
 .titulo img {
@@ -83,30 +163,62 @@ main {
   filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.8));
 }
 
-.header {
+.seccion {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+/* HeroSection*/
+.hero-section {
+  background-image: url("https://cdn.pixabay.com/photo/2018/07/31/22/10/vaping-3576049_1280.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  color: white;
+  padding: 20px;
+  overflow: hidden;
 }
 
-.portada {
-  width: 100%;
-  height: auto;
-  max-height: 450px;
-  object-fit: cover;
+.hero-content h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 0 0 20px;
+  color: white;
 }
 
-/* ESTILOS PARA GIF BART Y TEXTO */
+.explore-button {
+  background-color: #8a2be2;
+  color: white;
+  padding: 10px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.explore-button:hover {
+  background-color: black;
+  color: #8a2be2;
+}
+
+/* ESTILOS PARA GIF Y TEXTO */
 .gif-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 5px;
   align-items: center;
-  margin: 30px;
+  margin: 20px;
 }
 
 /* Estilo para el contenedor del GIF */
 .gif-container img {
   width: 100%;
-  height: auto;
+  height: 55vh;
   border-radius: 5px;
 }
 
@@ -116,10 +228,15 @@ main {
   background-color: #000000;
   color: #ddd;
   padding: 10px;
-  max-width: 600px;
+  max-width: 700px;
   height: 100%;
   margin: 0 auto;
-  line-height: 1.1;
+  line-height: 1.7;
+}
+
+.light-theme .text-container {
+  background-color: white !important;
+  color: black !important;
 }
 
 .text-container h2 {
@@ -142,11 +259,11 @@ main {
 }
 
 strong {
-  color: #8a2be2;
+  color: #000000;
 }
 
-.strong {
-  color: #000000;
+.light-theme strong {
+  color: #8a2be2 !important;
 }
 
 /* ESTILOS PARA ARTICLE */
@@ -170,6 +287,13 @@ article h2 {
   margin: 20px 0;
   border-radius: 10px;
   text-align: center;
+}
+
+.light-theme .history-section,
+.light-theme .tips-section,
+.light-theme .stats-section {
+  background-color: white;
+  color: black;
 }
 
 /* LISTAS */
@@ -199,24 +323,20 @@ article h2 {
   font-weight: bold;
 }
 
-.footer {
-  background-color: #8a2be2;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  flex-shrink: 0;
-}
+/* ESTILOS PARA EL FOOTER */
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* ESTILOS PARA LOS LINKS DEL FOOTER */
 .social-links {
   margin-top: 10px;
+}
+
+.light-theme .social-links a {
+  color: white !important;
 }
 
 .social-links a {
@@ -230,48 +350,18 @@ article h2 {
   color: white;
 }
 
-/* HeroSection*/
-.hero-section {
-  background-image: url("/gif/gif bienvenida.gif");
-  background-size: cover;
-  background-position: center;
-  height: 570px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  padding: 20px;
-}
-
-.hero-content h2 {
-  text-align: center;
-  font-size: 1.6rem;
-  margin: 0 0 20px;
-}
-
-.explore-button {
-  background-color: #8a2be2;
-  color: white;
-  padding: 10px 30px;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.explore-button:hover {
-  background-color: black;
-  color: #8a2be2;
+.light-theme .social-links a:hover {
+  color: #8a2be2 !important;
 }
 
 /* ESTILOS DE LOS PRODUCTOS */
 
 .item-list-container {
   display: flex;
-  justify-content: center;
   padding: 10px;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
+  align-content: center;
 }
 
 .item-list {
@@ -283,13 +373,14 @@ article h2 {
   margin-top: 20px;
 }
 
+/* ESTILOS DE LAS TARJETAS */
 .item-card {
   text-decoration: none;
   color: inherit;
   background-color: #1a1a1a;
   border: 1px solid #8a2be2;
   border-radius: 8px;
-  padding: 16px;
+  padding: 8px;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -298,7 +389,7 @@ article h2 {
 }
 
 .item-card:hover {
-  box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+  box-shadow: 0 0 15px rgba(129, 16, 235, 0.785);
   transform: translateY(-5px);
 }
 
@@ -306,6 +397,7 @@ article h2 {
   text-decoration: none;
 }
 
+/* ESTILOS DE LOS TITULOS DE LAS TARJETAS */
 .item-title {
   color: #8a2be2;
   font-size: 1.2em;
@@ -313,6 +405,7 @@ article h2 {
   text-decoration: none;
 }
 
+/* ESTILOS, DESCRICION */
 .item-description {
   color: #b0b0b0;
   font-size: 0.9em;
@@ -349,7 +442,7 @@ article h2 {
 
 .item-image {
   width: 100%;
-  height: 200px;
+  height: 270px;
   object-fit: cover;
   border-radius: 4px;
   margin-bottom: 12px;
@@ -432,10 +525,10 @@ article h2 {
   }
 
   .hero-section {
-    background-image: url("/gif/gif bienvenida.gif");
+    background-image: url("https://cdn.pixabay.com/photo/2020/04/13/18/10/vape-5039608_1280.jpg");
     background-size: cover;
     background-position: center;
-    height: 300px;
+    height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -458,11 +551,25 @@ article h2 {
     width: 100%;
     margin: 10px;
   }
+
   .item-image {
     height: auto;
   }
+
   .item-list {
     grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
     justify-content: center;
+  }
+
+  .social-links {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .titulo img {
+    display: none;
   }
 }

@@ -1,6 +1,14 @@
 const Home = () => {
   return (
     <main>
+          <div className="hero-section">
+      <div className="hero-content">
+        <h2>Descubre un mundo de sabores y alternativas</h2>
+        <a href="/productos" className="explore-button">
+          Explorar
+        </a>
+      </div>
+    </div>
       <section className="gif-grid">
         <div className="gif-container">
           <img
@@ -17,13 +25,13 @@ const Home = () => {
           </p>
           <ul>
             <li>
-              <strong>Menos sustancias tóxicas:</strong> A diferencia de los
+              <strong style={{color:"#8a2be2"}}>Menos sustancias tóxicas:</strong> A diferencia de los
               cigarrillos, que contienen más de 7,000 productos químicos
               nocivos, los vapeadores suelen tener una fórmula más simple con
               menos ingredientes dañinos.
             </li>
             <li>
-              <strong>Herramienta para dejar de fumar:</strong> Muchas personas
+              <strong style={{color:"#8a2be2"}}>Herramienta para dejar de fumar:</strong> Muchas personas
               utilizan los vapeadores como una manera de disminuir su consumo de
               nicotina y dejar de fumar gradualmente.
             </li>

@@ -7,30 +7,36 @@ import ItemDetailContainer from "./componentes/ItemDetailContainer";
 import Footer from "./componentes/Footer";
 import Home from "./componentes/Home";
 import CategoryPage from "./componentes/CategoryPage";
+import { ThemeProvider } from "./componentes/ThemeContext";
 
 function App() {
   return (
-    <Router>
-      <div id="root">
-        <div className="App">
-          <NavBar />
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/products"
-                element={
-                  <ItemListContainer greeting="¡Bienvenidos a Vapeo 3.5!" />
-                }
-              />
-              <Route path="/category/:categoryId" element={<CategoryPage />} />
-              <Route path="/item/:itemId" element={<ItemDetailContainer />} />
-            </Routes>
-          </main>
-          <Footer />
+    <ThemeProvider>
+      <Router>
+        <div id="root">
+          <div className="App">
+            <NavBar />
+            <main>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/products"
+                  element={
+                    <ItemListContainer greeting="¡Bienvenidos a Vapeo 3.5!" />
+                  }
+                />
+                <Route
+                  path="/category/:categoryId"
+                  element={<CategoryPage />}
+                />
+                <Route path="/item/:itemId" element={<ItemDetailContainer />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 
