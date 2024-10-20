@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Footer = () => {
   return (
@@ -13,22 +13,30 @@ const Footer = () => {
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-          >Facebook</a>
+          >
+            Facebook
+          </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
-          >Twitter</a>
+          >
+            Twitter
+          </a>
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-          >Instagram</a>
+          >
+            Instagram
+          </a>
           <a
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
-          >LinkedIn</a>
+          >
+            LinkedIn
+          </a>
         </div>
       </div>
     </footer>

@@ -5,9 +5,12 @@
   font-optical-sizing: auto;
   font-weight: 700;
   font-style: normal;
-  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+html,
 body {
   margin: 0;
   padding: 0;
@@ -16,6 +19,18 @@ body {
   font-weight: 700;
   font-style: normal;
   background-color: black !important;
+  height: 100%;
+}
+
+.App {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+  padding-bottom: 2rem;
 }
 
 .NavBar {
@@ -192,6 +207,7 @@ article h2 {
   position: relative;
   bottom: 0;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .footer-content {
@@ -262,7 +278,7 @@ article h2 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
-  max-width: 1200px; 
+  max-width: 1200px;
   width: 100%;
   margin-top: 20px;
 }
@@ -338,7 +354,6 @@ article h2 {
   border-radius: 4px;
   margin-bottom: 12px;
 }
-
 
 .item-card a,
 .item-card a:hover,

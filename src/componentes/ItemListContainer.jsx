@@ -27,7 +27,10 @@ const ItemListContainer = ({ greeting }) => {
   }, [categoryId]);
 
   return (
-    <div style={{textAlign:"center", margin:"25px", color:"white"}} className="item-list-container">
+    <div
+      style={{ textAlign: "center", margin: "25px", color: "white" }}
+      className="item-list-container"
+    >
       {greeting && <h1>{greeting}</h1>}
       <ItemList products={items} />
     </div>
