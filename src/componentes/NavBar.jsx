@@ -1,8 +1,9 @@
+// NavBar.jsx
 import React, { useContext } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CartWidget from "./CartWidget";
-import ThemeToggle from "./ThemeToggle"; // Importa el componente
+import ThemeToggle from "./ThemeToggle";
 import { ThemeContext } from "./ThemeContext";
 
 const NavBar = () => {
@@ -21,20 +22,14 @@ const NavBar = () => {
             <Nav.Link as={Link} to="/products" className="Navlink">
               Productos
             </Nav.Link>
-            <Nav.Link as={Link} to="/category/1" className="Navlink">
+            <Nav.Link as={Link} to="/category/Recargable" className="Navlink">
               Recargables
             </Nav.Link>
-            <Nav.Link as={Link} to="/category/2" className="Navlink">
+            <Nav.Link as={Link} to="/category/Descartable" className="Navlink">
               Descartables
             </Nav.Link>
-            <Nav.Link as={Link} to="/category/3" className="Navlink">
-              Puff
-            </Nav.Link>
           </Nav>
-
-          {/* Colocamos el botón de cambio de tema aquí */}
           <ThemeToggle />
-
           <CartWidget />
         </Navbar.Collapse>
       </Container>
