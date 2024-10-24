@@ -1,8 +1,10 @@
+// ItemListContainer.jsx
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"; // Asegúrate de importar useParams
 import ItemList from "./ItemList";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/config";
+import FlashSale from "./FlashSale"; // Importa el componente FlashSale
 
 const ItemListContainer = ({ greeting }) => {
   const [items, setItems] = useState([]);
@@ -17,7 +19,7 @@ const ItemListContainer = ({ greeting }) => {
         let q = collection(db, "products");
 
         if (categoryId) {
-          q = query(q, where("category", "==", categoryId)); // Cambié 'categoryId' por 'category'
+          q = query(q, where("category", "==", categoryId));
         }
 
         const querySnapshot = await getDocs(q);
@@ -29,9 +31,7 @@ const ItemListContainer = ({ greeting }) => {
         setItems(productsFromDb);
       } catch (error) {
         console.error("Error fetching products:", error);
-        setError(
-          "Error al cargar los productos. Por favor, intente más tarde."
-        );
+        setError("Error al cargar los productos. Por favor, intente más tarde.");
       } finally {
         setLoading(false);
       }
@@ -43,9 +43,16 @@ const ItemListContainer = ({ greeting }) => {
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
 
+  // Define la fecha de finalización de la oferta
+  const endDate = "2024-10-26T23:59:59";
+
+  // Productos que estarán en oferta
+  const flashSaleProducts = items.slice(0, 2); 
+
   return (
     <div className="item-list-container">
       {greeting && <h1>{greeting}</h1>}
+      <FlashSale endDate={endDate} products={flashSaleProducts} /> 
       <ItemList products={items} />
     </div>
   );

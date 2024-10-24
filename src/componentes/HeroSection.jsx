@@ -5,7 +5,7 @@ const HeroSection = () => {
     <div className="hero-section">
       <div className="hero-content">
         <h2>Descubre un mundo de sabores y alternativas</h2>
-        <a href="/productos" className="explore-button">
+        <a href="/products" className="explore-button">
           Explorar
         </a>
       </div>

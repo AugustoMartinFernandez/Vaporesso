@@ -3,8 +3,13 @@ import React, { createContext, useState, useEffect } from "react";
 export const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(() => {
+    // Verifica el tema almacenado en localStorage al cargar la página
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme ? savedTheme === "dark" : true;
+  });
 
+  // Actualiza la clase en el body según el tema seleccionado
   useEffect(() => {
     document.body.classList.toggle("light-theme", !isDark);
     localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -13,13 +18,6 @@ export const ThemeProvider = ({ children }) => {
   const toggleTheme = () => {
     setIsDark((prev) => !prev);
   };
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setIsDark(savedTheme === "dark");
-    }
-  }, []);
 
   return (
     <ThemeContext.Provider value={{ isDark, toggleTheme }}>
