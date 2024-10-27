@@ -31,7 +31,9 @@ const ItemListContainer = ({ greeting }) => {
         setItems(productsFromDb);
       } catch (error) {
         console.error("Error fetching products:", error);
-        setError("Error al cargar los productos. Por favor, intente más tarde.");
+        setError(
+          "Error al cargar los productos. Por favor, intente más tarde."
+        );
       } finally {
         setLoading(false);
       }
@@ -43,16 +45,16 @@ const ItemListContainer = ({ greeting }) => {
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  // Define la fecha de finalización de la oferta
-  const endDate = "2024-10-26T23:59:59";
+  //  fecha de finalización de la oferta
+  const endDate = "2024-10-27T12:02:00";
 
   // Productos que estarán en oferta
-  const flashSaleProducts = items.slice(0, 2); 
+  const flashSaleProducts = items.slice(0, 2);
 
   return (
     <div className="item-list-container">
       {greeting && <h1>{greeting}</h1>}
-      <FlashSale endDate={endDate} products={flashSaleProducts} /> 
+      <FlashSale endDate={endDate} products={flashSaleProducts} />
       <ItemList products={items} />
     </div>
   );

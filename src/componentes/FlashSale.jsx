@@ -2,11 +2,24 @@ import React, { useState, useEffect } from "react";
 
 const FlashSale = ({ endDate, products }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [isExpired, setIsExpired] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
+      const remainingTime = calculateTimeLeft();
+      setTimeLeft(remainingTime);
+
+      // Verificar si la oferta ha expirado
+      if (Object.keys(remainingTime).length === 0) {
+        setIsExpired(true);
+        clearInterval(timer);
+      }
     }, 1000);
+
+    // Verificar inmediatamente si ya está expirado
+    if (Object.keys(timeLeft).length === 0) {
+      setIsExpired(true);
+    }
 
     return () => clearInterval(timer);
   }, []);
@@ -22,10 +35,13 @@ const FlashSale = ({ endDate, products }) => {
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60),
       };
-    } else {
-      clearInterval();
     }
     return timeLeft;
+  }
+
+  // Si la oferta ha expirado, no renderizar nada
+  if (isExpired) {
+    return null;
   }
 
   return (
