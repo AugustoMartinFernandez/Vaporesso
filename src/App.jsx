@@ -1,6 +1,7 @@
-// App.jsx
+// Modificación necesaria en App.jsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from 'react-hot-toast';
 import "./App.css";
 import NavBar from "./componentes/NavBar";
 import ItemListContainer from "./componentes/ItemListContainer";
@@ -8,12 +9,13 @@ import ItemDetailContainer from "./componentes/ItemDetailContainer";
 import Footer from "./componentes/Footer";
 import Home from "./componentes/Home";
 import { ThemeProvider } from "./componentes/ThemeContext";
+import { CartProvider } from './componentes/CartContext';
 
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <div id="root">
+      <CartProvider>
+        <Router>
           <div className="App">
             <NavBar />
             <main>
@@ -34,8 +36,18 @@ function App() {
             </main>
             <Footer />
           </div>
-        </div>
-      </Router>
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: '#363636',
+                color: '#fff',
+              },
+            }}
+          />
+        </Router>
+      </CartProvider>
     </ThemeProvider>
   );
 }

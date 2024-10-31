@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { Shield, Truck, Package, Award, ThumbsUp, Star } from "lucide-react";
+import { useCart } from './CartContext';
+import { toast } from 'react-hot-toast';
 
 const ItemDetailContainer = () => {
   const [item, setItem] = useState(null);
@@ -10,6 +12,7 @@ const ItemDetailContainer = () => {
   const [error, setError] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const { itemId } = useParams();
+  const { addToCart, isInCart, cartItems, reservedItems } = useCart();
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -36,14 +39,54 @@ const ItemDetailContainer = () => {
 
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
-    if (value > 0 && value <= item.stock) {
+    if (value > 0 && value <= getAvailableStock()) {
       setSelectedQuantity(value);
     }
+  };
+
+  const getAvailableStock = () => {
+    if (!item) return 0;
+    
+    const cartItem = cartItems.find(i => i.id === item.id);
+    const cartQuantity = cartItem ? cartItem.quantity : 0;
+    return item.stock - cartQuantity;
+  };
+
+  const isReserved = () => {
+    return reservedItems.has(itemId);
+  };
+
+  const handleAddToCart = () => {
+    if (isReserved()) {
+      toast.error('Este producto está reservado temporalmente');
+      return;
+    }
+
+    const availableStock = getAvailableStock();
+    if (selectedQuantity > availableStock) {
+      toast.error(`Solo hay ${availableStock} unidades disponibles`);
+      return;
+    }
+
+    addToCart({
+      id: item.id,
+      title: item.title,
+      price: item.price,
+      pictureUrl: item.picturUrl,
+      stock: item.stock
+    }, selectedQuantity);
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    // Aquí podrías agregar la navegación al checkout
   };
 
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
   if (!item) return <div>Producto no encontrado</div>;
+
+  const availableStock = getAvailableStock();
 
   return (
     <div className="item-detail-container">
@@ -51,8 +94,8 @@ const ItemDetailContainer = () => {
         <div className="item-detail-image">
           <div className="image-container">
             <img src={item.picturUrl} alt={item.title} />
-            {item.stock < 5 && (
-              <span className="stock-badge">¡Últimas unidades!</span>
+            {availableStock < 5 && (
+              <span className="stock-badge">¡Últimas {availableStock} unidades!</span>
             )}
           </div>
           <div className="item-guarantees mt-4">
@@ -106,7 +149,11 @@ const ItemDetailContainer = () => {
             <div className="features-list">
               <div className="feature-item">
                 <Package className="text-purple-600" size={20} />
-                <span>Nuevo - {item.stock} unidades disponibles</span>
+                <span>
+                  {isReserved() 
+                    ? "Producto reservado temporalmente" 
+                    : `Nuevo - ${availableStock} unidades disponibles`}
+                </span>
               </div>
               {item.features?.map((feature, index) => (
                 <div key={index} className="feature-item">
@@ -126,23 +173,44 @@ const ItemDetailContainer = () => {
                 value={selectedQuantity}
                 onChange={handleQuantityChange}
                 className="quantity-select"
+                disabled={availableStock === 0 || isReserved()}
               >
-                {[...Array(item.stock)].map((_, i) => (
+                {[...Array(availableStock)].map((_, i) => (
                   <option key={i + 1} value={i + 1}>
                     {i + 1}
                   </option>
                 ))}
               </select>
               <span className="available-stock">
-                ({item.stock} disponibles)
+                ({availableStock} disponibles)
               </span>
             </div>
 
-            <button className="item-buy-button" disabled={item.stock === 0}>
-              {item.stock === 0 ? "Sin Stock" : "Comprar ahora"}
+            <button 
+              className="item-buy-button" 
+              disabled={availableStock === 0 || isReserved()}
+              onClick={handleBuyNow}
+            >
+              {availableStock === 0 
+                ? "Sin Stock" 
+                : isReserved()
+                  ? "Producto Reservado"
+                  : "Comprar ahora"
+              }
             </button>
-            <button className="item-cart-button" disabled={item.stock === 0}>
-              {item.stock === 0 ? "Sin Stock" : "Agregar al carrito"}
+            <button 
+              className="item-cart-button" 
+              disabled={availableStock === 0 || isReserved()}
+              onClick={handleAddToCart}
+            >
+              {availableStock === 0 
+                ? "Sin Stock" 
+                : isReserved()
+                  ? "Producto Reservado"
+                  : isInCart(item.id)
+                    ? "Agregar más al carrito"
+                    : "Agregar al carrito"
+              }
             </button>
           </div>
 
