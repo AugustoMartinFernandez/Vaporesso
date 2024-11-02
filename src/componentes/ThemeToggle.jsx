@@ -10,7 +10,7 @@ const ThemeToggle = () => {
       className={`theme-toggle-btn ${isDark ? "dark" : "light"}`}
       aria-label={isDark ? "Activar modo claro" : "Activar modo oscuro"}
     >
-      {isDark ? "☀️" : "🌙"}
+      {isDark ? "Light" : "Dark"}
     </button>
   );
 };

@@ -18,25 +18,52 @@ const NavBar = () => {
       expand="lg"
       expanded={expanded}
       onToggle={() => setExpanded(!expanded)} // Cambia el estado al abrir/cerrar
-      className={`NavBar ${isDark ? "" : "light-theme"} ${expanded ? "open" : ""}`} // Agregar clase condicional
+      className={`NavBar ${isDark ? "" : "light-theme"} ${
+        expanded ? "open" : ""
+      }`} 
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="titulo" onClick={handleNavClick}>
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="titulo"
+          onClick={handleNavClick}
+        >
           Vapeo 3.5{" "}
-          <img width="35" height="35" src="/images/vapear.png" alt="iqos" />
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler">
-          <AiOutlineMenu size={24} className={`menu-icon ${expanded ? "rotate" : ""}`} /> {/* Icono personalizado con rotación */}
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="custom-toggler"
+        >
+          <AiOutlineMenu
+            size={24}
+            className={`menu-icon ${expanded ? "rotate" : ""}`}
+          />{" "}
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/products" onClick={handleNavClick} className="Navlink">
+            <Nav.Link
+              as={Link}
+              to="/products"
+              onClick={handleNavClick}
+              className="Navlink"
+            >
               Productos
             </Nav.Link>
-            <Nav.Link as={Link} to="/category/Recargable" onClick={handleNavClick} className="Navlink">
+            <Nav.Link
+              as={Link}
+              to="/category/Recargable"
+              onClick={handleNavClick}
+              className="Navlink"
+            >
               Recargables
             </Nav.Link>
-            <Nav.Link as={Link} to="/category/Descartable" onClick={handleNavClick} className="Navlink">
+            <Nav.Link
+              as={Link}
+              to="/category/Descartable"
+              onClick={handleNavClick}
+              className="Navlink"
+            >
               Descartables
             </Nav.Link>
           </Nav>
@@ -49,7 +76,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-
-
-

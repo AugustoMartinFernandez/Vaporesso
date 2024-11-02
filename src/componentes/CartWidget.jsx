@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import { useCart } from './CartContext';
-import CartDrawer from './CartDrawer';
+import { useCart } from "./CartContext";
+import CartDrawer from "./CartDrawer";
 
 const CartWidget = () => {
   const { itemCount } = useCart();
@@ -9,7 +9,7 @@ const CartWidget = () => {
 
   return (
     <>
-      <button 
+      <button
         className="btn btn-link position-relative p-2"
         onClick={() => setIsDrawerOpen(true)}
       >
@@ -21,9 +21,9 @@ const CartWidget = () => {
           </span>
         )}
       </button>
-      <CartDrawer 
-        isOpen={isDrawerOpen} 
-        onClose={() => setIsDrawerOpen(false)} 
+      <CartDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
       />
     </>
   );

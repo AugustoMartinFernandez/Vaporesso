@@ -12,7 +12,7 @@ const Home = () => {
       <section className="gif-grid">
         <div className="gif-container">
           <img
-            src="/images/vaper vs cigarrillo .webp"
+            src="https://leakbio.com/wp-content/uploads/2023/10/mike-tyson-vape-brand-1024x683.jpg"
             alt="Comparación entre vapeador y cigarrillo"
           />
         </div>

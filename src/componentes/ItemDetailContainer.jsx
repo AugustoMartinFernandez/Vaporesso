@@ -1,10 +1,11 @@
+//  ESTE CODIGO ES PARA VER LAS CARACTERISTICAS DE LOS PRODUCTOS
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { Shield, Truck, Package, Award, ThumbsUp, Star } from "lucide-react";
-import { useCart } from './CartContext';
-import { toast } from 'react-hot-toast';
+import { useCart } from "./CartContext";
+import { toast } from "react-hot-toast";
 
 const ItemDetailContainer = () => {
   const [item, setItem] = useState(null);
@@ -37,6 +38,10 @@ const ItemDetailContainer = () => {
     fetchItem();
   }, [itemId]);
 
+  const formatCurrency = (value) => {
+    return `$ ${value.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  };
+
   const handleQuantityChange = (e) => {
     const value = parseInt(e.target.value);
     if (value > 0 && value <= getAvailableStock()) {
@@ -46,8 +51,8 @@ const ItemDetailContainer = () => {
 
   const getAvailableStock = () => {
     if (!item) return 0;
-    
-    const cartItem = cartItems.find(i => i.id === item.id);
+
+    const cartItem = cartItems.find((i) => i.id === item.id);
     const cartQuantity = cartItem ? cartItem.quantity : 0;
     return item.stock - cartQuantity;
   };
@@ -58,7 +63,7 @@ const ItemDetailContainer = () => {
 
   const handleAddToCart = () => {
     if (isReserved()) {
-      toast.error('Este producto está reservado temporalmente');
+      toast.error("Este producto está reservado temporalmente");
       return;
     }
 
@@ -68,18 +73,21 @@ const ItemDetailContainer = () => {
       return;
     }
 
-    addToCart({
-      id: item.id,
-      title: item.title,
-      price: item.price,
-      pictureUrl: item.picturUrl,
-      stock: item.stock
-    }, selectedQuantity);
+    addToCart(
+      {
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        pictureUrl: item.picturUrl,
+        stock: item.stock,
+      },
+      selectedQuantity
+    );
   };
 
   const handleBuyNow = () => {
     handleAddToCart();
-    // Aquí podrías agregar la navegación al checkout
+    // navegación al checkout
   };
 
   if (loading) return <div className="loading">Cargando...</div>;
@@ -95,7 +103,9 @@ const ItemDetailContainer = () => {
           <div className="image-container">
             <img src={item.picturUrl} alt={item.title} />
             {availableStock < 5 && (
-              <span className="stock-badge">¡Últimas {availableStock} unidades!</span>
+              <span className="stock-badge">
+                ¡Últimas {availableStock} unidades!
+              </span>
             )}
           </div>
           <div className="item-guarantees mt-4">
@@ -134,13 +144,13 @@ const ItemDetailContainer = () => {
           </div>
 
           <div className="price-container">
-            <p className="previous-price">${(item.price * 1.2).toFixed(2)}</p>
+            <p className="previous-price">{formatCurrency(item.price * 1.2)}</p>
             <div className="current-price">
-              <span className="price">${item.price}</span>
+              <span className="price">{formatCurrency(item.price)}</span>
               <span className="discount">20% OFF</span>
             </div>
             <p className="installments">
-              en 12x ${(item.price / 12).toFixed(2)} sin interés
+              en 12x {formatCurrency(item.price / 12)} sin interés
             </p>
           </div>
 
@@ -150,8 +160,8 @@ const ItemDetailContainer = () => {
               <div className="feature-item">
                 <Package className="text-purple-600" size={20} />
                 <span>
-                  {isReserved() 
-                    ? "Producto reservado temporalmente" 
+                  {isReserved()
+                    ? "Producto reservado temporalmente"
                     : `Nuevo - ${availableStock} unidades disponibles`}
                 </span>
               </div>
@@ -185,32 +195,18 @@ const ItemDetailContainer = () => {
                 ({availableStock} disponibles)
               </span>
             </div>
-
-            <button 
-              className="item-buy-button" 
-              disabled={availableStock === 0 || isReserved()}
-              onClick={handleBuyNow}
-            >
-              {availableStock === 0 
-                ? "Sin Stock" 
-                : isReserved()
-                  ? "Producto Reservado"
-                  : "Comprar ahora"
-              }
-            </button>
-            <button 
-              className="item-cart-button" 
+            <button
+              className="item-cart-button"
               disabled={availableStock === 0 || isReserved()}
               onClick={handleAddToCart}
             >
-              {availableStock === 0 
-                ? "Sin Stock" 
+              {availableStock === 0
+                ? "Sin Stock"
                 : isReserved()
-                  ? "Producto Reservado"
-                  : isInCart(item.id)
-                    ? "Agregar más al carrito"
-                    : "Agregar al carrito"
-              }
+                ? "Producto Reservado"
+                : isInCart(item.id)
+                ? "Agregar más al carrito"
+                : "Agregar al carrito"}
             </button>
           </div>
 
@@ -225,3 +221,4 @@ const ItemDetailContainer = () => {
 };
 
 export default ItemDetailContainer;
+

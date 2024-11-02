@@ -1,4 +1,3 @@
-// Modificación necesaria en App.jsx
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
@@ -24,7 +23,7 @@ function App() {
                 <Route
                   path="/products"
                   element={
-                    <ItemListContainer greeting="¿Listo para dejar el pucho?" />
+                    <ItemListContainer greeting="Con esto vas a dejar de fumar 🚬" />
                   }
                 />
                 <Route

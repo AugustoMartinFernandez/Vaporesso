@@ -23,12 +23,14 @@
 
 /* Estilo en modo oscuro */
 .theme-toggle-btn.dark {
-  color: #fdd835 !important;
+  color: black !important;
+  font-weight: 700;
 }
 
 /* Estilo en modo claro */
 .theme-toggle-btn.light {
-  color: #6a0dad !important;
+  color: white !important;
+  font-weight: 700;
 }
 
 /* Hover para ambos modos */
@@ -63,7 +65,7 @@ main {
 }
 
 .NavBar {
-  background-color: #8a2be2 !important;
+  background-color: #5D3FD3 !important;
 }
 
 .navbar-toggler-icon {
@@ -97,17 +99,13 @@ body.light-theme {
   color: #000000 !important;
 }
 
-.NavBar {
-  background-color: #8a2be2 !important;
-}
-
 .NavBar.light-theme {
   background-color: black !important;
   color: #000000 !important;
 }
 
 .footer {
-  background-color: #8a2be2;
+  background-color: #5D3FD3;
   color: white;
   padding: 20px;
   text-align: center;
@@ -144,7 +142,7 @@ h1 {
 .titulo {
   transition: filter 0.2s ease;
   color: black !important;
-  font-weight: bolder;
+ font-weight: 900;
 }
 
 .light-theme .titulo {
@@ -176,7 +174,7 @@ h1 {
 
 /* HeroSection*/
 .hero-section {
-  background-image: url("https://cdn.pixabay.com/photo/2018/07/31/22/10/vaping-3576049_1280.jpg");
+  background-image: url("https://m.media-amazon.com/images/S/aplus-media/sc/638b4ca8-9a8a-4f6c-a1ea-a006c79688c2.__CR0,0,970,600_PT0_SX970_V1___.jpg");
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -226,8 +224,6 @@ h1 {
   border-radius: 5px;
 }
 
-/* FIN DEL LAYOUT */
-
 .text-container {
   background-color: #000000;
   color: #ddd;
@@ -271,7 +267,6 @@ strong {
 }
 
 /* ESTILOS PARA ARTICLE */
-
 article {
   max-width: 80%;
   margin: 0 auto;
@@ -328,7 +323,6 @@ article h2 {
 }
 
 /* ESTILOS PARA EL FOOTER */
-
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
@@ -357,8 +351,6 @@ article h2 {
 .light-theme .social-links a:hover {
   color: yellow !important;
 }
-
-/* ESTILOS DE LOS PRODUCTOS */
 
 /* Nuevos estilos para ItemDetail */
 .item-detail-container {
@@ -447,12 +439,13 @@ article h2 {
 }
 
 .item-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  width: 100%;
-  margin-top: 20px;
+  display: grid; /* Usa Grid para el diseño de cuadrícula */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Crear columnas responsivas */
+  gap: 20px; /* Espacio entre las tarjetas */
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  width: 100%; /* Ancho completo del contenedor */
+  margin: 20px auto; /* Margen superior y centrado horizontal */
+  padding: 20px; /* Espaciado interno */
 }
 
 /* ESTILOS DE LAS TARJETAS */
@@ -544,20 +537,16 @@ article h2 {
   border-radius: 8px;
   padding: 20px;
   margin: 20px 0;
-  box-shadow: none;
-}
-
-.light-theme .flash-sale {
-  background-color: white;
-  border: none;
-  box-shadow: none;
 }
 
 .flash-sale-title {
   font-size: 24px;
-  color: #6a0dad;
+  color: #fdd835;
   text-align: center;
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .countdown-timer {
@@ -568,45 +557,114 @@ article h2 {
   margin-bottom: 20px;
 }
 
+.timer-item-container {
+  display: flex;
+  gap: 10px;
+}
+
 .timer-item {
   background-color: #6a0dad;
   color: white;
   border-radius: 4px;
   padding: 10px 15px;
-  margin: 0 5px;
-}
-
-.flash-sale-subtitle {
-  font-size: 20px;
-  color: #333;
-  text-align: center;
-  margin-bottom: 15px;
 }
 
 .flash-sale-products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  flex-direction: row;
-  align-content: center;
+  gap: 15px;
 }
 
 .flash-sale-product {
-  background-color: #fff;
+  background-color: white;
   border: 1px solid #ddd;
   border-radius: 8px;
   width: 250px;
   margin: 10px;
   text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px,
-    rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
-    rgba(0, 0, 0, 0.07) 0px 16px 16px;
-  transition: transform 0.3s;
   padding: 10px;
+  transition: transform 0.3s;
 }
 
 .flash-sale-product:hover {
   transform: scale(1.05);
+}
+
+.product-image {
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.product-title {
+  color: black;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.product-price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.current-price {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.discount {
+  background-color: #ff4444;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.stock-buy-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.stock-info {
+  font-size: 0.9em;
+  color: #333;
+}
+
+.item-buy-button {
+  background-color: #6a0dad;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.item-buy-button:hover {
+  background-color: #5b0c8f;
+}
+
+.view-all-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  color: #fdd835;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.view-all-link:hover {
+  color: #fff;
 }
 
 .product-image {
@@ -800,7 +858,7 @@ article h2 {
   border-top: 1px solid #ddd;
 }
 
-
+/* STYLES PARA EL CARRITO DE COMPRAS */
 .cart-overlay {
   position: fixed;
   top: 0;
@@ -838,7 +896,7 @@ article h2 {
   color: #6c757d;
 }
 
-/* Animación del drawer */
+/* ANIMACIONES PARA EL DRAWER */
 .cart-drawer {
   animation: slideIn 0.3s ease-out;
 }
@@ -847,15 +905,105 @@ article h2 {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
 }
 
 /* Estilos para el modal de confirmación */
-.modal.fade.show {
-  background-color: rgba(0, 0, 0, 0.5);
+.confirm-clear-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(https://cdn.shopify.com/s/files/1/0420/3882/1024/files/geekvape-aegis-x-mod-zeus-tank-review-cover-image-2.jpg?v=1600094752);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  color: white;
 }
+
+.modal-content {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-actions .btn {
+  min-width: 100px;
+}
+
+.modal-actions .btn-lg {
+  padding: 0.75rem 1.5rem;
+}
+
+h5 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-vaciar {
+  background-color: #8a2be2 !important;
+  border: none;
+  color: white !important;
+}
+
+.btn-cancelar {
+  background-color: black !important;
+  border: none;
+  color: white !important;
+}
+
+.btn-primary {
+  background-color: #8a2be2 !important;
+  border: none !important;
+}
+
+.p-2 {
+  color: #000000 !important;
+}
+
+.light-theme .p-2 {
+  color: white !important;
+}
+
+.bg-danger {
+  background-color: #a82be2 !important;
+}
+
+.image-section {
+  display: flex; 
+  width: 100%; 
+  overflow: hidden; 
+}
+
+.image {
+  flex: 1;
+  height: 300px; 
+  object-fit: cover; 
+}
+
 
 
 @media (max-width: 768px) {
@@ -865,6 +1013,14 @@ article h2 {
     padding: 0;
     font-weight: 700;
     font-style: normal;
+  }
+
+  .navbar-collapse {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start !important;
+    align-content: center;
   }
 
   .header {
@@ -956,7 +1112,7 @@ article h2 {
   }
 
   .item-image {
-    height: auto;
+    height: 255px;
   }
 
   .item-list {
@@ -987,21 +1143,156 @@ article h2 {
     flex-wrap: wrap;
     justify-content: center;
   }
+
   .cart-drawer {
     max-width: 100%;
   }
+
   .cart-item:hover {
     background-color: #f8f9fa;
   }
-  
+
   .btn-group > .btn {
     padding: 0.25rem 0.5rem;
   }
-  
+
   .shipping-info {
     border-radius: 0.25rem;
   }
+
+  .flash-sale {
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .flash-sale-title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .countdown-timer {
+    font-size: 16px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .timer-item-container {
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .timer-item {
+    padding: 8px 10px;
+    font-size: 0.9em;
+  }
+
+  .flash-sale-products {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .flash-sale-product {
+    width: 100%;
+    max-width: 300px;
+    margin: 0;
+    padding: 10px;
+    transition: transform 0.2s;
+  }
+
+  .flash-sale-product:hover {
+    transform: scale(1.02);
+  }
+
+  .product-image {
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .product-title {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+
+  .product-price-container {
+    font-size: 14px;
+    gap: 4px;
+  }
+
+  .current-price {
+    font-size: 1.2em;
+  }
+
+  .original-price,
+  .discount {
+    font-size: 0.9em;
+  }
+
+  .stock-buy-section {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8px;
+    gap: 5px;
+  }
+
+  .stock-info {
+    font-size: 0.8em;
+  }
+
+  .item-buy-button {
+    padding: 6px 12px;
+    font-size: 0.9em;
+  }
+
+  .view-all-link {
+    font-size: 0.9rem;
+    margin-top: 12px;
+  }
+  .navbar-toggler {
+    color: white !important;
+    border-radius: 20%;
+    background-color: #000000 !important;
+    border: none !important;
+  }
+  .light-theme .navbar-toggler {
+    color: black !important;
+    background-color: yellow !important;
+  }
+
+  .image-section {
+    display: flex; /* Usa Flexbox para colocar las imágenes una al lado de la otra */
+    width: 100%; /* Cubre todo el ancho de la pantalla */
+    overflow: hidden; /* Evita el desbordamiento si las imágenes son más grandes */
+  }
+  
+  .image {
+    flex: 1; /* Las imágenes ocuparán igual espacio */
+    height: 110px; 
+    object-fit: cover; 
+  }
+  
+  .image:first-child {
+    border-right: 5px ;
+  }
+  /* Estilos para el modal de confirmación */
+.confirm-clear-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url(https://th.bing.com/th/id/OIP.VXTDeGQiK1IUyuMDm3o5HwAAAA?w=419&h=720&rs=1&pid=ImgDetMain);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  color: white;
 }
-
-
-
+}

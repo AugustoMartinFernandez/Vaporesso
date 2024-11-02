@@ -1,10 +1,8 @@
-// ItemListContainer.jsx
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Asegúrate de importar useParams
+import { useParams } from "react-router-dom"; // importar useParams
 import ItemList from "./ItemList";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/config";
-import FlashSale from "./FlashSale"; // Importa el componente FlashSale
 
 const ItemListContainer = ({ greeting }) => {
   const [items, setItems] = useState([]);
@@ -45,16 +43,14 @@ const ItemListContainer = ({ greeting }) => {
   if (loading) return <div className="loading">Cargando...</div>;
   if (error) return <div className="error">{error}</div>;
 
-  //  fecha de finalización de la oferta
-  const endDate = "2024-10-27T12:02:00";
-
-  // Productos que estarán en oferta
-  const flashSaleProducts = items.slice(0, 2);
-
   return (
     <div className="item-list-container">
-      {greeting && <h1>{greeting}</h1>}
-      <FlashSale endDate={endDate} products={flashSaleProducts} />
+      <div className="image-section">
+        <img src="https://vapeuk.co.uk/media/wysiwyg/8-freemax-maxus-2-200w-kit-desktop.jpeg" className="image" />
+        <img src="https://cdn.awsli.com.br/970/970430/arquivos/Smok-RPM85.jpeg" alt="Descripción de la Imagen 2" className="image" />
+      </div>
+      {/* {greeting && <h1>{greeting}</h1>} */}
+
       <ItemList products={items} />
     </div>
   );
