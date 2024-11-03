@@ -46,8 +46,15 @@ const ItemListContainer = ({ greeting }) => {
   return (
     <div className="item-list-container">
       <div className="image-section">
-        <img src="https://vapeuk.co.uk/media/wysiwyg/8-freemax-maxus-2-200w-kit-desktop.jpeg" className="image" />
-        <img src="https://cdn.awsli.com.br/970/970430/arquivos/Smok-RPM85.jpeg" alt="Descripción de la Imagen 2" className="image" />
+        <img
+          src="https://vapeuk.co.uk/media/wysiwyg/8-freemax-maxus-2-200w-kit-desktop.jpeg"
+          className="image"
+        />
+        <img
+          src="https://cdn.awsli.com.br/970/970430/arquivos/Smok-RPM85.jpeg"
+          alt="Descripción de la Imagen 2"
+          className="image"
+        />
       </div>
       {/* {greeting && <h1>{greeting}</h1>} */}
 

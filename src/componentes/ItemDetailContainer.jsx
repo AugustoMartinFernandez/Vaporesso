@@ -39,7 +39,10 @@ const ItemDetailContainer = () => {
   }, [itemId]);
 
   const formatCurrency = (value) => {
-    return `$ ${value.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    return `$ ${value.toLocaleString("es-AR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
   };
 
   const handleQuantityChange = (e) => {
@@ -221,4 +224,3 @@ const ItemDetailContainer = () => {
 };
 
 export default ItemDetailContainer;
-

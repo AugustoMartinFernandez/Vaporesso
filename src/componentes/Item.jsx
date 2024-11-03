@@ -1,4 +1,4 @@
-                              // ESTE CODIGO ES PARA ITEM DE CADA CARD DE PRODUCTOS
+// ESTE CODIGO ES PARA ITEM DE CADA CARD DE PRODUCTOS
 import React from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";

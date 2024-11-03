@@ -1,9 +1,20 @@
-const Home = () => {
+import React from "react";
+import appFirebase from "../credenciales";
+import { getAuth, signOut } from "firebase/auth";
+const auth =getAuth(appFirebase)
+const Home = ({correoUsuario}) => {
   return (
     <main>
+      <div>
+      <h3 className="text-center">
+  Bienvenido Usuario <strong className="strong-usuario">{correoUsuario}</strong>
+  <button className="logout-button" onClick={() => signOut(auth)}>Logout</button>
+</h3>
+
+      </div>
       <div className="hero-section">
         <div className="hero-content">
-          <h2>Descubre un mundo de sabores y alternativas</h2>
+          {/* <h2>Descubre un mundo de sabores y alternativas</h2> */}
           <a href="/products" className="explore-button">
             Explorar
           </a>

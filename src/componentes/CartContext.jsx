@@ -1,5 +1,7 @@
+// CartContext.jsx
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { getAuth } from "firebase/auth";
 
 const CartContext = createContext();
 
@@ -8,6 +10,7 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
+  const auth = getAuth();
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem("cart");
     return savedCart ? JSON.parse(savedCart) : [];
@@ -17,13 +20,27 @@ export const CartProvider = ({ children }) => {
   const [itemCount, setItemCount] = useState(0);
   const [reservedItems, setReservedItems] = useState(new Map());
 
+  // Limpiar carrito cuando el usuario cierra sesión
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        setCartItems([]);
+        setReservedItems(new Map());
+        localStorage.removeItem("cart");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
   // Actualizar localStorage cuando cambia el carrito
   useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems));
-    calculateTotals();
-  }, [cartItems]);
+    if (auth.currentUser) {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      calculateTotals();
+    }
+  }, [cartItems, auth.currentUser]);
 
-  // Calcular totales
   const calculateTotals = () => {
     const { total, count } = cartItems.reduce(
       (acc, item) => ({
@@ -36,9 +53,18 @@ export const CartProvider = ({ children }) => {
     setItemCount(count);
   };
 
-  // Reservar item por 30 minutos
+  const checkAuth = () => {
+    if (!auth.currentUser) {
+      toast.error("Debes iniciar sesión primero");
+      return false;
+    }
+    return true;
+  };
+
   const reserveItem = (itemId, quantity) => {
-    const expirationTime = new Date().getTime() + 30 * 60 * 1000; // 30 minutos
+    if (!checkAuth()) return;
+
+    const expirationTime = new Date().getTime() + 30 * 60 * 1000;
     setReservedItems((prev) =>
       new Map(prev).set(itemId, {
         quantity,
@@ -46,14 +72,14 @@ export const CartProvider = ({ children }) => {
       })
     );
 
-    // Programar la liberación del item
     setTimeout(() => {
       removeReservation(itemId);
     }, 30 * 60 * 1000);
   };
 
-  // Remover reservación
   const removeReservation = (itemId) => {
+    if (!checkAuth()) return;
+
     setReservedItems((prev) => {
       const newMap = new Map(prev);
       newMap.delete(itemId);
@@ -64,8 +90,9 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  // Agregar al carrito
   const addToCart = (product, quantity = 1) => {
+    if (!checkAuth()) return;
+
     if (reservedItems.has(product.id)) {
       toast.error("Este producto está reservado");
       return;
@@ -94,16 +121,18 @@ export const CartProvider = ({ children }) => {
     toast.success("Producto agregado al carrito");
   };
 
-  // Remover del carrito
   const removeFromCart = (productId) => {
+    if (!checkAuth()) return;
+
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== productId)
     );
     toast.success("Producto eliminado del carrito");
   };
 
-  // Actualizar cantidad
   const updateQuantity = (productId, quantity) => {
+    if (!checkAuth()) return;
+
     setCartItems((prevItems) =>
       prevItems.map((item) =>
         item.id === productId
@@ -113,14 +142,14 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // Limpiar carrito
   const clearCart = () => {
+    if (!checkAuth()) return;
+
     setCartItems([]);
     setReservedItems(new Map());
     toast.success("Carrito vaciado");
   };
 
-  // Verificar si un producto está en el carrito
   const isInCart = (productId) => {
     return cartItems.some((item) => item.id === productId);
   };
