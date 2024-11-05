@@ -1,12 +1,11 @@
-// NavBar.jsx
 import React, { useState, useContext } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import CartWidget from "./CartWidget";
 import ThemeToggle from "./ThemeToggle";
 import { ThemeContext } from "./ThemeContext";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 const NavBar = () => {
   const { isDark } = useContext(ThemeContext);
@@ -17,8 +16,14 @@ const NavBar = () => {
 
   const handleNavClick = () => {
     setExpanded(false);
-    if (!user) {
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
       navigate('/login');
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
@@ -30,72 +35,41 @@ const NavBar = () => {
       className={`NavBar ${isDark ? "" : "light-theme"} ${expanded ? "open" : ""}`}
     >
       <Container>
-        <Navbar.Brand
-          as={Link}
-          to="/"
-          className="titulo"
-          onClick={handleNavClick}
-        >
-          Vapeo 3.5{" "}
+        <Navbar.Brand as={Link} to="/" className="titulo" onClick={handleNavClick}>
+         NeoVape
         </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="basic-navbar-nav"
-          className="custom-toggler"
-        >
-          <AiOutlineMenu
-            size={24}
-            className={`menu-icon ${expanded ? "rotate" : ""}`}
-          />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler">
+          <AiOutlineMenu size={24} className={`menu-icon ${expanded ? "rotate" : ""}`} />
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           {user ? (
-            // Mostrar navegación solo si el usuario está autenticado
             <>
               <Nav className="me-auto">
-                <Nav.Link
-                  as={Link}
-                  to="/products"
-                  onClick={handleNavClick}
-                  className="Navlink"
-                >
+                <Nav.Link as={Link} to="/products" onClick={handleNavClick} className="Navlink">
                   Productos
                 </Nav.Link>
-                <Nav.Link
-                  as={Link}
-                  to="/category/Recargable"
-                  onClick={handleNavClick}
-                  className="Navlink"
-                >
+                <Nav.Link as={Link} to="/category/Recargable" onClick={handleNavClick} className="Navlink">
                   Recargables
                 </Nav.Link>
-                <Nav.Link
-                  as={Link}
-                  to="/category/Descartable"
-                  onClick={handleNavClick}
-                  className="Navlink"
-                >
+                <Nav.Link as={Link} to="/category/Descartable" onClick={handleNavClick} className="Navlink">
                   Descartables
                 </Nav.Link>
               </Nav>
               <div className="d-flex align-items-center">
-                {/* <span className="me-3 text-light">
-                  {user.email}
-                </span>
-                <button 
-                  onClick={() => auth.signOut()} 
-                  className="btn btn-outline-light me-3"
-                >
-                  Salir
-                </button> */}
+                <div className="d-flex align-items-center" id="seccion">
+                <span className="me-3 text-light">{user.email}</span>
+                <Button onClick={handleLogout} variant="outline-light" className="me-3">
+                  Cerrar Sesión
+                </Button>
+                </div>
                 <ThemeToggle />
                 <CartWidget />
               </div>
             </>
           ) : (
-            // Si no hay usuario, solo mostrar el toggle de tema
-            <div className="ms-auto">
+            <Nav className="ms-auto">
               <ThemeToggle />
-            </div>
+            </Nav>
           )}
         </Navbar.Collapse>
       </Container>

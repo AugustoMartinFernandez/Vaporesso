@@ -20,11 +20,11 @@ const Footer = () => {
             Facebook
           </a>
           <a
-            href="https://twitter.com"
+            href="https://www.smoktech.com/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Twitter
+            Smok
           </a>
           <a
             href="https://instagram.com"
@@ -34,11 +34,11 @@ const Footer = () => {
             Instagram
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.vaporesso.com/es"
             target="_blank"
             rel="noopener noreferrer"
           >
-            LinkedIn
+            Vaporesso
           </a>
         </div>
       </div>
@@ -47,3 +47,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
+// NO ACTUALIZADO

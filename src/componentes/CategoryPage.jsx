@@ -23,3 +23,5 @@ const CategoryPage = () => {
 };
 
 export default CategoryPage;
+
+// NO ACTUALIZADO 

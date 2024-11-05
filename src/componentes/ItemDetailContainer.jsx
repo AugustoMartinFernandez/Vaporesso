@@ -224,3 +224,5 @@ const ItemDetailContainer = () => {
 };
 
 export default ItemDetailContainer;
+
+// NO ACTUALIZADO 

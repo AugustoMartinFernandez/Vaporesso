@@ -1,20 +1,60 @@
-# Vapeo 3.5
+# NeoVape - E-commerce de Productos de Vapeo
 
-¡Bienvenido a **Vapeo 3.5**! Esta aplicación está diseñada para ofrecer una experiencia completa en el mundo del vapeo, donde los usuarios pueden explorar productos, conocer más sobre la evolución del vapeo, y obtener consejos útiles si están comenzando.
+## Descripción del Proyecto
+NeoVape es una aplicación web desarrollada con React que ofrece una experiencia completa de compra de productos de vapeo. Los usuarios pueden explorar productos, gestionar su carrito de compras y realizar pedidos de manera segura.
 
-## Características
-
-- **Explorar Productos**: Los usuarios pueden navegar por diferentes categorías de productos, como recargables, descartables y puff.
-- **Vista Detallada de Productos**: Cada producto tiene una tarjeta (card) con su imagen, descripción y precio. Los usuarios pueden hacer clic en el producto para ver más detalles.
-- **Historia del Vapeo**: Información sobre la evolución del vapeo desde sus inicios hasta la actualidad.
-- **Consejos para Nuevos Vapers**: Una lista de consejos prácticos para quienes empiezan a vapear.
-- **Datos Interesantes**: Estadísticas relevantes sobre el mundo del vapeo, como el número de usuarios y la cantidad de sabores disponibles.
+## Características Principales
+- Autenticación de usuarios
+- Catálogo de productos con categorías
+- Carrito de compras persistente
+- Sistema de reserva de productos
+- Proceso de checkout
+- Tema claro/oscuro
+- Diseño responsive
 
 ## Tecnologías Utilizadas
+- **React**: Biblioteca principal para construir la interfaz de usuario
+- **Firebase**: 
+  - Authentication para manejo de usuarios
+  - Firestore para base de datos
+- **React Router Dom**: Navegación entre componentes
+- **React Bootstrap**: Framework CSS para diseño responsive
+- **React Hot Toast**: Notificaciones elegantes
+- **Lucide React**: Iconos modernos y personalizables
 
-- **React**: Para la creación de componentes y el manejo del estado.
-- **React Router**: Para la navegación entre páginas y categorías.
-- **Bootstrap**: Para la creación de una barra de navegación (NavBar) y otros estilos.
-- **CSS personalizado**: Para los estilos visuales adicionales.
-- **Iconos**: Se utilizaron iconos de la librería `react-icons`.
+## Funcionalidades Principales
 
+### Autenticación
+- Registro de usuarios
+- Inicio de sesión
+- Recuperación de contraseña
+- Persistencia de sesión
+
+### Carrito de Compras
+- Agregar/eliminar productos
+- Actualizar cantidades
+- Reserva temporal de productos
+- Persistencia del carrito por 30 minutos después del cierre de sesión
+
+### Proceso de Compra
+- Validación de stock
+- Formulario de datos de envío
+- Confirmación de orden
+- Generación de ID de orden
+
+## Justificación de Librerías
+
+- **React Bootstrap**: Elegida por su facilidad de uso y componentes predefinidos que aceleran el desarrollo.
+- **React Hot Toast**: Proporciona notificaciones elegantes y personalizables con una API simple.
+- **Lucide React**: Ofrece iconos modernos y personalizables con buen rendimiento.
+- **React Router Dom**: Estándar en React para manejo de rutas y navegación.
+
+## Mejoras Futuras
+- Implementación de pasarela de pagos
+- Sistema de reviews de productos
+- Panel de administración
+- Historial de pedidos
+- Sistema de favoritos
+
+## Autor
+Martin Fernandez
