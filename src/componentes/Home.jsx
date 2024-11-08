@@ -1,30 +1,39 @@
 import React from "react";
-import appFirebase from "../credenciales";
-import { getAuth, signOut } from "firebase/auth";
-const auth =getAuth(appFirebase)
-const Home = ({correoUsuario}) => {
+import { Link, useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+
+const Home = ({ correoUsuario }) => {
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  // Verificar si el usuario está autenticado
+  if (!auth.currentUser) {
+    navigate('/login');
+    return null;
+  }
+
   return (
-    <main>
-      <div>
-      <h3 className="text-center">
-  Bienvenido Usuario <strong className="strong-usuario">{correoUsuario}</strong>
-
-</h3>
-
+    <main className="home-container">
+      <div className="welcome-section">
+        <h3 className="text-center">
+          Bienvenido Usuario <strong className="strong-usuario">{correoUsuario}</strong>
+        </h3>
       </div>
+
       <div className="hero-section">
         <div className="hero-content">
-          {/* <h2>Descubre un mundo de sabores y alternativas</h2> */}
-          <a href="/products" className="explore-button">
+          <Link to="/products" className="explore-button">
             Explorar
-          </a>
+          </Link>
         </div>
       </div>
+
       <section className="gif-grid">
         <div className="gif-container">
           <img
             src="https://leakbio.com/wp-content/uploads/2023/10/mike-tyson-vape-brand-1024x683.jpg"
             alt="Comparación entre vapeador y cigarrillo"
+            loading="lazy"
           />
         </div>
         <div className="text-container">
@@ -36,17 +45,13 @@ const Home = ({correoUsuario}) => {
           </p>
           <ul>
             <li>
-              <strong style={{ color: "#8a2be2" }}>
-                Menos sustancias tóxicas:
-              </strong>{" "}
+              <strong className="highlight-text">Menos sustancias tóxicas:</strong>{" "}
               A diferencia de los cigarrillos, que contienen más de 7,000
               productos químicos nocivos, los vapeadores suelen tener una
               fórmula más simple con menos ingredientes dañinos.
             </li>
             <li>
-              <strong style={{ color: "#8a2be2" }}>
-                Herramienta para dejar de fumar:
-              </strong>{" "}
+              <strong className="highlight-text">Herramienta para dejar de fumar:</strong>{" "}
               Muchas personas utilizan los vapeadores como una manera de
               disminuir su consumo de nicotina y dejar de fumar gradualmente.
             </li>
@@ -54,8 +59,8 @@ const Home = ({correoUsuario}) => {
         </div>
       </section>
 
-      <article>
-        <section className="history-section">
+      <article className="info-sections">
+        <section className="history-section info-card">
           <h2>La Evolución del Vapeo</h2>
           <ul>
             <li>2003: Se introduce el primer e-cigarrillo en el mercado.</li>
@@ -67,7 +72,7 @@ const Home = ({correoUsuario}) => {
           </ul>
         </section>
 
-        <section className="tips-section">
+        <section className="tips-section info-card">
           <h2>Consejos para Nuevos Vapers</h2>
           <ol>
             <li>Comienza con un dispositivo sencillo.</li>
@@ -76,7 +81,7 @@ const Home = ({correoUsuario}) => {
           </ol>
         </section>
 
-        <section className="stats-section">
+        <section className="stats-section info-card">
           <h2>Datos Interesantes sobre el Vapeo</h2>
           <ul>
             <li>Más de 40 millones de personas han probado el vapeo.</li>
@@ -90,5 +95,3 @@ const Home = ({correoUsuario}) => {
 };
 
 export default Home;
-
-// CODIGO NO ACTUALIZADO

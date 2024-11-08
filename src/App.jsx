@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import appFirebase from "./credenciales";
@@ -44,17 +44,51 @@ function App() {
             <main>
               <Routes>
                 <Route path="/login" element={!usuario ? <Login /> : <Navigate to="/" />} />
-                <Route path="/" element={<ProtectedRoute><Home correoUsuario={usuario?.email} /></ProtectedRoute>} />
-                <Route path="/products" element={<ProtectedRoute><ItemListContainer greeting="Con esto vas a dejar de fumar 🚬" /></ProtectedRoute>} />
-                <Route path="/category/:categoryId" element={<ProtectedRoute><ItemListContainer /></ProtectedRoute>} />
-                <Route path="/item/:itemId" element={<ProtectedRoute><ItemDetailContainer /></ProtectedRoute>} />
-                <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
-                <Route path="/order-confirmation/:orderId" element={<ProtectedRoute><OrderConfirmation /></ProtectedRoute>} />
+                <Route path="/" element={
+                  <ProtectedRoute>
+                    <Home correoUsuario={usuario?.email} />
+                  </ProtectedRoute>
+                } />
+                <Route path="/products" element={
+                  <ProtectedRoute>
+                    <ItemListContainer greeting="Con esto vas a dejar de fumar 🚬" />
+                  </ProtectedRoute>
+                } />
+                <Route path="/category/:categoryId" element={
+                  <ProtectedRoute>
+                    <ItemListContainer />
+                  </ProtectedRoute>
+                } />
+                <Route path="/item/:itemId" element={
+                  <ProtectedRoute>
+                    <ItemDetailContainer />
+                  </ProtectedRoute>
+                } />
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                } />
+                <Route path="/order-confirmation/:orderId" element={
+                  <ProtectedRoute>
+                    <OrderConfirmation />
+                  </ProtectedRoute>
+                } />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
             <Footer />
           </div>
-          <Toaster position="top-right" toastOptions={{ duration: 3000, style: { background: "#363636", color: "#fff" } }} />
+          <Toaster 
+            position="top-right" 
+            toastOptions={{ 
+              duration: 3000, 
+              style: { 
+                background: "#363636", 
+                color: "#fff" 
+              } 
+            }} 
+          />
         </Router>
       </CartProvider>
     </ThemeProvider>
@@ -62,6 +96,4 @@ function App() {
 }
 
 export default App;
-
-// CODIGO NO ACTUALIZADO
 

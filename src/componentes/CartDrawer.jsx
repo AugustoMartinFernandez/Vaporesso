@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useCart } from "./CartContext";
 import { Trash2, Plus, Minus, Shield, Truck, CreditCard } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
-import "../App.css";
 
 const CartDrawer = ({ isOpen, onClose }) => {
   const { cartItems, getCartTotal, removeFromCart, updateQuantity, clearCart, reservedItems } = useCart();

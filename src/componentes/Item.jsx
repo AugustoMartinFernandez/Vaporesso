@@ -2,8 +2,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
-import { useCart } from "./CartContext"; // Importamos el hook useCart
-import { toast } from "react-hot-toast"; // Importamos toast para las notificaciones
+import { useCart } from "./CartContext";
+import { toast } from "react-hot-toast"; 
 
 const Item = ({ item }) => {
   if (!item) return null;
