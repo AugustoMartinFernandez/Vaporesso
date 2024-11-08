@@ -48,4 +48,4 @@ const Footer = () => {
 
 export default Footer;
 
-// NO ACTUALIZADO
+// CODIGO NO ACTUALIZADO

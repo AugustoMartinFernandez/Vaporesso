@@ -16,3 +16,5 @@ const app = initializeApp(firebaseConfig);
 
 // Exporta la instancia de Firestore
 export const db = getFirestore(app);
+
+// CODIGO NO ACTUALIZADO

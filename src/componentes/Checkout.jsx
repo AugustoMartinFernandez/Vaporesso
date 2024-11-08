@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from './CartContext';
 import { db } from '../firebase/config';
 import { collection, addDoc, doc, updateDoc, increment } from 'firebase/firestore';
@@ -6,56 +6,41 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const Checkout = () => {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
-  
+  const cartTotal = getCartTotal();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    address: '',
+    street: '',
+    number: '',
     city: '',
     province: '',
     postalCode: '',
-    street: '',
-    number: '',
     description: ''
   });
 
-  const validateForm = () => {
-    const requiredFields = [
-      'name', 'email', 'phone', 'city', 
-      'province', 'postalCode', 'street', 'number'
-    ];
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    // Validar que todos los campos requeridos estén completos
+    const requiredFields = ['name', 'email', 'phone', 'street', 'number', 'city', 'province', 'postalCode'];
+    const isValid = requiredFields.every(field => formData[field].trim() !== '');
     
-    for (const field of requiredFields) {
-      if (!formData[field]) {
-        toast.error(`Por favor, completa el campo ${field}`);
-        return false;
-      }
-    }
-
-    // Validación específica para email
+    // Validaciones adicionales
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast.error('Por favor, ingresa un email válido');
-      return false;
-    }
+    const phoneRegex = /^\d{10}$/;
+    const postalCodeRegex = /^\d{4}$/;
 
-    // Validación para código postal
-    if (!/^\d{4}$/.test(formData.postalCode)) {
-      toast.error('El código postal debe tener 4 dígitos');
-      return false;
-    }
+    const isEmailValid = emailRegex.test(formData.email);
+    const isPhoneValid = phoneRegex.test(formData.phone);
+    const isPostalCodeValid = postalCodeRegex.test(formData.postalCode);
 
-    // Validación para teléfono
-    if (!/^\d{10}$/.test(formData.phone)) {
-      toast.error('El teléfono debe tener 10 dígitos');
-      return false;
-    }
-
-    return true;
-  };
+    setIsFormValid(isValid && isEmailValid && isPhoneValid && isPostalCodeValid);
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,15 +50,45 @@ const Checkout = () => {
     }));
   };
 
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'email':
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return 'Ingrese un email válido';
+        }
+        break;
+      case 'phone':
+        if (!/^\d{10}$/.test(value)) {
+          return 'El teléfono debe tener 10 dígitos';
+        }
+        break;
+      case 'postalCode':
+        if (!/^\d{4}$/.test(value)) {
+          return 'El código postal debe tener 4 dígitos';
+        }
+        break;
+      default:
+        if (!value.trim()) {
+          return 'Este campo es requerido';
+        }
+    }
+    return '';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!cartItems.length) {
+    if (!isFormValid) {
+      toast.error('Por favor, complete todos los campos correctamente');
+      return;
+    }
+
+    if (cartItems.length === 0) {
       toast.error('El carrito está vacío');
       return;
     }
 
-    if (!validateForm()) return;
+    setIsSubmitting(true);
 
     try {
       const order = {
@@ -118,13 +133,14 @@ const Checkout = () => {
     } catch (error) {
       console.error('Error al crear la orden:', error);
       toast.error('Error al procesar la orden');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="checkout-container">
       <h2>Finalizar Compra</h2>
-      
       <div className="order-summary">
         <h3>Resumen de la Orden</h3>
         {cartItems.map(item => (
@@ -153,6 +169,9 @@ const Checkout = () => {
               placeholder="Ej: Juan Pérez"
               required
             />
+            {formData.name && validateField('name', formData.name) && 
+              <span className="error-message">{validateField('name', formData.name)}</span>
+            }
           </div>
 
           <div className="form-group">
@@ -166,6 +185,9 @@ const Checkout = () => {
               placeholder="ejemplo@correo.com"
               required
             />
+            {formData.email && validateField('email', formData.email) && 
+              <span className="error-message">{validateField('email', formData.email)}</span>
+            }
           </div>
 
           <div className="form-group">
@@ -179,6 +201,9 @@ const Checkout = () => {
               placeholder="Ej: 1234567890"
               required
             />
+            {formData.phone && validateField('phone', formData.phone) && 
+              <span className="error-message">{validateField('phone', formData.phone)}</span>
+            }
           </div>
         </div>
 
@@ -247,6 +272,9 @@ const Checkout = () => {
               placeholder="Ej: 1234"
               required
             />
+            {formData.postalCode && validateField('postalCode', formData.postalCode) && 
+              <span className="error-message">{validateField('postalCode', formData.postalCode)}</span>
+            }
           </div>
 
           <div className="form-group">
@@ -258,12 +286,16 @@ const Checkout = () => {
               onChange={handleChange}
               placeholder="Ej: Entre calles, referencias, piso, departamento..."
               rows="3"
-            ></textarea>
+            />
           </div>
         </div>
 
-        <button type="submit" className="submit-button">
-          Confirmar Compra
+        <button 
+          type="submit" 
+          className="submit-button"
+          disabled={!isFormValid || isSubmitting}
+        >
+          {isSubmitting ? 'Procesando...' : 'Confirmar Compra'}
         </button>
       </form>
     </div>

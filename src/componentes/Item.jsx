@@ -92,4 +92,4 @@ const Item = ({ item }) => {
 
 export default Item;
 
-// NO ACTUALIZADO 
+// CODIGO NO ACTUALIZADO

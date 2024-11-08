@@ -8,7 +8,7 @@ const Home = ({correoUsuario}) => {
       <div>
       <h3 className="text-center">
   Bienvenido Usuario <strong className="strong-usuario">{correoUsuario}</strong>
-  <button className="logout-button" onClick={() => signOut(auth)}>Logout</button>
+
 </h3>
 
       </div>
@@ -91,4 +91,4 @@ const Home = ({correoUsuario}) => {
 
 export default Home;
 
-// NO ACTUALIZADO 
+// CODIGO NO ACTUALIZADO

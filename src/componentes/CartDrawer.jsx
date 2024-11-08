@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "./CartContext";
-import { X as CloseIcon, Trash2, Plus, Minus, Shield, Truck, CreditCard } from "lucide-react";
+import { Trash2, Plus, Minus, Shield, Truck, CreditCard } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import "../App.css";
 
 const CartDrawer = ({ isOpen, onClose }) => {
-  const { cartItems, cartTotal, removeFromCart, updateQuantity, clearCart, reservedItems } = useCart();
+  const { cartItems, getCartTotal, removeFromCart, updateQuantity, clearCart, reservedItems } = useCart();
   const [showConfirmClear, setShowConfirmClear] = useState(false);
   const [shippingCost, setShippingCost] = useState(0);
   const navigate = useNavigate();
+
+  const cartTotal = getCartTotal();
 
   useEffect(() => {
     const calculateShipping = () => {
@@ -39,14 +41,17 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const calculateInstallments = () => {
     const installmentOptions = [
-      { months: 12, interest: 0 },
       { months: 6, interest: 0 },
       { months: 3, interest: 0 },
     ];
     return installmentOptions.map((option) => ({
       months: option.months,
-      amount: (cartTotal * (1 + option.interest / 100)) / option.months,
+      amount: cartTotal / option.months,
     }));
+  };
+
+  const calculateTransferDiscount = () => {
+    return cartTotal * 0.92; // 10% de descuento
   };
 
   const handleGenerateOrder = () => {
@@ -65,7 +70,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
       <div className="cart-drawer">
         <div className="cart-header border-bottom p-3 d-flex justify-content-between align-items-center">
           <h5 className="mb-0">Tu carrito tiene {cartItems.length} productos</h5>
-          <button onClick={onClose} className="btn-close" aria-label="Close" />
+          <button onClick={onClose} className="btn-close" aria-label="Cerrar" />
         </div>
         {cartItems.length === 0 ? (
           <div className="empty-cart d-flex flex-column align-items-center justify-content-center p-4">
@@ -156,6 +161,9 @@ const CartDrawer = ({ isOpen, onClose }) => {
                     {months}x {formatCurrency(amount)} sin interés
                   </p>
                 ))}
+                <p className="small text-muted mb-1 text-success">
+                  Transferencia: {formatCurrency(calculateTransferDiscount())} (10% descuento)
+                </p>
               </div>
               <div className="d-grid gap-2">
                 <button className="btn btn-primary" onClick={handleGenerateOrder}>
@@ -209,4 +217,3 @@ const CartDrawer = ({ isOpen, onClose }) => {
 };
 
 export default CartDrawer;
-// NO ACTUALIZADO

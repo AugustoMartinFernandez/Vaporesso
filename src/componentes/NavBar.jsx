@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AiOutlineMenu } from "react-icons/ai";
 import CartWidget from "./CartWidget";
 import ThemeToggle from "./ThemeToggle";
@@ -13,10 +13,11 @@ const NavBar = () => {
   const auth = getAuth();
   const user = auth.currentUser;
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleNavClick = () => {
-    setExpanded(false);
-  };
+  const isLoginPage = location.pathname === '/login';
+
+  const handleNavClick = () => setExpanded(false);
 
   const handleLogout = async () => {
     try {
@@ -32,45 +33,44 @@ const NavBar = () => {
       expand="lg"
       expanded={expanded}
       onToggle={() => setExpanded(!expanded)}
-      className={`NavBar ${isDark ? "" : "light-theme"} ${expanded ? "open" : ""}`}
+      className={`NavBar ${isDark ? "" : "light-theme"}`}
     >
       <Container>
         <Navbar.Brand as={Link} to="/" className="titulo" onClick={handleNavClick}>
-         NeoVape
+          NeoVape
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className="custom-toggler">
-          <AiOutlineMenu size={24} className={`menu-icon ${expanded ? "rotate" : ""}`} />
+        
+        {!isLoginPage && user && <CartWidget />}
+        
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <AiOutlineMenu size={24} color={isDark ? "white" : "black"} />
         </Navbar.Toggle>
+        
         <Navbar.Collapse id="basic-navbar-nav">
-          {user ? (
+          {user && !isLoginPage ? (
             <>
               <Nav className="me-auto">
-                <Nav.Link as={Link} to="/products" onClick={handleNavClick} className="Navlink">
+                <Nav.Link as={Link} to="/products" onClick={handleNavClick}>
                   Productos
                 </Nav.Link>
-                <Nav.Link as={Link} to="/category/Recargable" onClick={handleNavClick} className="Navlink">
+                <Nav.Link as={Link} to="/category/Recargable" onClick={handleNavClick}>
                   Recargables
                 </Nav.Link>
-                <Nav.Link as={Link} to="/category/Descartable" onClick={handleNavClick} className="Navlink">
+                <Nav.Link as={Link} to="/category/Descartable" onClick={handleNavClick}>
                   Descartables
                 </Nav.Link>
               </Nav>
-              <div className="d-flex align-items-center">
-                <div className="d-flex align-items-center" id="seccion">
-                <span className="me-3 text-light">{user.email}</span>
-                <Button onClick={handleLogout} variant="outline-light" className="me-3">
+              <div className="user-section">
+                <span className="user-email">{user.email}</span>
+                <Button onClick={handleLogout} variant={isDark ? "outline-light" : "outline-dark"} size="sm">
                   Cerrar Sesión
                 </Button>
-                </div>
-                <ThemeToggle />
-                <CartWidget />
               </div>
             </>
-          ) : (
-            <Nav className="ms-auto">
-              <ThemeToggle />
-            </Nav>
-          )}
+          ) : null}
+          <Nav className="ms-auto">
+            <ThemeToggle />
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

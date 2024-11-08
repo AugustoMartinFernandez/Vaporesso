@@ -13,4 +13,4 @@ const ItemList = ({ products }) => {
 
 export default ItemList;
 
-// NO ACTUALIZADO 
+// CODIGO NO ACTUALIZADO

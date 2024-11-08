@@ -1,5 +1,4 @@
 # NeoVape - E-commerce de Productos de Vapeo
-
 ## Descripción del Proyecto
 NeoVape es una aplicación web desarrollada con React que ofrece una experiencia completa de compra de productos de vapeo. Los usuarios pueden explorar productos, gestionar su carrito de compras y realizar pedidos de manera segura.
 
