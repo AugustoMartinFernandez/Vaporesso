@@ -140,13 +140,13 @@ const Checkout = () => {
 
   return (
     <div className="checkout-container">
-      <h2>Finalizar Compra</h2>
+      <h2 style={{textAlign:"center"}}>Finalizar Compra</h2>
       <div className="order-summary">
         <h3>Resumen de la Orden</h3>
         {cartItems.map(item => (
           <div key={item.id} className="order-item">
-            <span>{item.title}</span>
-            <span>Cantidad: {item.quantity}</span>
+            <span style={{color:"red"}}>{item.title}</span>
+            <span style={{color:"red"}}>Cantidad: {item.quantity}</span>
             <span>${item.price * item.quantity}</span>
           </div>
         ))}

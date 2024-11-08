@@ -5,7 +5,7 @@ import { db } from "../firebase/config";
 import { Shield, Truck, Package, Award, ThumbsUp, Star } from "lucide-react";
 import { useCart } from "./CartContext";
 import { toast } from "react-hot-toast";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 const ItemDetailContainer = () => {
   const [item, setItem] = useState(null);
@@ -16,12 +16,14 @@ const ItemDetailContainer = () => {
   const { addToCart, isInCart, cartItems, reservedItems } = useCart();
 
   const validarDatosProducto = (datos) => {
-    return datos && 
-           typeof datos.title === 'string' &&
-           typeof datos.price === 'number' &&
-           typeof datos.stock === 'number' &&
-           datos.picturUrl && 
-           datos.picturUrl.startsWith('https://');
+    return (
+      datos &&
+      typeof datos.title === "string" &&
+      typeof datos.price === "number" &&
+      typeof datos.stock === "number" &&
+      datos.picturUrl &&
+      datos.picturUrl.startsWith("https://")
+    );
   };
 
   useEffect(() => {
@@ -34,10 +36,10 @@ const ItemDetailContainer = () => {
 
         const docRef = doc(db, "products", itemId);
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
           const datosProducto = { id: docSnap.id, ...docSnap.data() };
-          
+
           if (validarDatosProducto(datosProducto)) {
             setItem(datosProducto);
           } else {
@@ -57,15 +59,15 @@ const ItemDetailContainer = () => {
   }, [itemId]);
 
   const formatCurrency = (value) => {
-    return new Intl.NumberFormat('es-AR', {
-      style: 'currency',
-      currency: 'ARS'
+    return new Intl.NumberFormat("es-AR", {
+      style: "currency",
+      currency: "ARS",
     }).format(value);
   };
 
   const getAvailableStock = () => {
     if (!item) return 0;
-    const cartItem = cartItems.find(i => i.id === item.id);
+    const cartItem = cartItems.find((i) => i.id === item.id);
     const cartQuantity = cartItem ? cartItem.quantity : 0;
     return Math.max(0, item.stock - cartQuantity);
   };
@@ -94,13 +96,16 @@ const ItemDetailContainer = () => {
       return;
     }
 
-    addToCart({
-      id: item.id,
-      title: item.title,
-      price: item.price,
-      pictureUrl: item.picturUrl,
-      stock: item.stock
-    }, selectedQuantity);
+    addToCart(
+      {
+        id: item.id,
+        title: item.title,
+        price: item.price,
+        pictureUrl: item.picturUrl,
+        stock: item.stock,
+      },
+      selectedQuantity
+    );
   };
 
   if (loading) return <div className="loading">Cargando...</div>;
@@ -114,7 +119,10 @@ const ItemDetailContainer = () => {
       <div className="item-detail">
         <div className="item-detail-image">
           <div className="image-container">
-            <img src={DOMPurify.sanitize(item.picturUrl)} alt={DOMPurify.sanitize(item.title)} />
+            <img
+              src={DOMPurify.sanitize(item.picturUrl)}
+              alt={DOMPurify.sanitize(item.title)}
+            />
             {availableStock < 5 && availableStock > 0 && (
               <span className="stock-badge">
                 ¡Últimas {availableStock} unidades!
@@ -159,9 +167,18 @@ const ItemDetailContainer = () => {
               <span className="price">{formatCurrency(item.price)}</span>
               <span className="discount">20% OFF</span>
             </div>
-            <p className="installments">
-              en 12x {formatCurrency(item.price / 12)} sin interés
-            </p>
+            <div className="payment-options">
+              <p className="installments">
+                en 6x {formatCurrency(item.price / 6)} sin interés
+              </p>
+              <p className="installments">
+                en 3x {formatCurrency(item.price / 3)} sin interés
+              </p>
+              <p style={{color:"#00a650"}} className="transfer-price">
+                Transferencia: <span style={{color:"red"}}>{formatCurrency(item.price * 0.9)}{" "}</span>
+                <span style={{color:"white"}} className="transfer-discount">(10% OFF)</span>
+              </p>
+            </div>
           </div>
           <div className="product-features">
             <h3>Características principales</h3>
@@ -219,7 +236,9 @@ const ItemDetailContainer = () => {
           </div>
           <div className="description-section">
             <h3 className="h3-description">Descripción</h3>
-            <p className="description">{DOMPurify.sanitize(item.description)}</p>
+            <p className="description">
+              {DOMPurify.sanitize(item.description)}
+            </p>
           </div>
         </div>
       </div>

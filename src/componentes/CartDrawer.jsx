@@ -13,10 +13,10 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const calculateShipping = () => {
-      if (cartTotal >= 50000) {
+      if (cartTotal >= 85000) {
         return 0;
       } else {
-        return cartTotal * 0.25;
+        return cartTotal * 0.15;
       }
     };
     setShippingCost(calculateShipping());
@@ -68,7 +68,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
       <div className="cart-overlay" onClick={onClose} />
       <div className="cart-drawer">
         <div className="cart-header border-bottom p-3 d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">Tu carrito tiene {cartItems.length} productos</h5>
+          <h5 style={{color:"black"}} className="mb-0">Tu carrito tiene {cartItems.length} productos</h5>
           <button onClick={onClose} className="btn-close" aria-label="Cerrar" />
         </div>
         {cartItems.length === 0 ? (
@@ -92,7 +92,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                     </div>
                     <div className="col-9">
                       <div className="d-flex justify-content-between">
-                        <h6 className="mb-1">{item.title}</h6>
+                        <h6 style={{color:"black"}} className="mb-1">{item.title}</h6>
                         <button onClick={() => removeFromCart(item.id)} className="btn btn-link text-danger p-0">
                           <Trash2 size={18} />
                         </button>
@@ -120,7 +120,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                         </div>
                         <small className="text-muted">(máx. {item.stock})</small>
                       </div>
-                      <p className="mb-0 fw-bold">{formatCurrency(item.price * item.quantity)}</p>
+                      <p style={{color:"red"}} className="mb-0 fw-bold">{formatCurrency(item.price * item.quantity)}</p>
                     </div>
                   </div>
                 </div>
@@ -145,7 +145,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   <span>Envío</span>
                   <span>{formatCurrency(shippingCost)}</span>
                 </div>
-                <div className="d-flex justify-content-between fw-bold">
+                <div style={{color:"#212529bf"}} className="d-flex justify-content-between fw-bold">
                   <span>Total</span>
                   <span>{formatCurrency(cartTotal + shippingCost)}</span>
                 </div>
@@ -153,7 +153,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
               <div className="payment-options bg-light rounded p-3 mb-3">
                 <div className="d-flex align-items-center gap-2 mb-2">
                   <CreditCard size={20} className="text-success" />
-                  <span className="fw-medium">Medios de pago</span>
+                  <span style={{color:"#212529bf"}} className="fw-medium">Medios de pago</span>
                 </div>
                 {installments.map(({ months, amount }) => (
                   <p key={months} className="small text-muted mb-1">
@@ -164,11 +164,11 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   Transferencia: {formatCurrency(calculateTransferDiscount())} (10% descuento)
                 </p>
               </div>
-              <div className="d-grid gap-2">
-                <button className="btn btn-primary" onClick={handleGenerateOrder}>
+              <div style={{justifyItems:"center"}} className="d-grid gap-2">
+                <button style={{width:"50%"}} className="btn btn-primary" onClick={handleGenerateOrder}>
                   Generar orden
                 </button>
-                <button
+                <button style={{width:"50%"}}
                   onClick={() => setShowConfirmClear(true)}
                   className="btn btn-danger"
                 >

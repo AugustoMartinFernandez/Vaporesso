@@ -62,7 +62,7 @@ const NavBar = () => {
               </Nav>
               <div className="user-section">
                 <span className="user-email">{user.email}</span>
-                <Button onClick={handleLogout} variant={isDark ? "outline-light" : "outline-dark"} size="sm">
+                <Button style={{backgroundColor:"purple"}}  onClick={handleLogout} variant={isDark ? "outline-light" : "outline-dark"} size="sm">
                   Cerrar Sesión
                 </Button>
               </div>
