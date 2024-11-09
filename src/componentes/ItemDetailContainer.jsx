@@ -101,7 +101,7 @@ const ItemDetailContainer = () => {
         id: item.id,
         title: item.title,
         price: item.price,
-        pictureUrl: item.picturUrl,
+        picturUrl: item.picturUrl,
         stock: item.stock,
       },
       selectedQuantity
@@ -174,9 +174,14 @@ const ItemDetailContainer = () => {
               <p className="installments">
                 en 3x {formatCurrency(item.price / 3)} sin interés
               </p>
-              <p style={{color:"#00a650"}} className="transfer-price">
-                Transferencia: <span style={{color:"red"}}>{formatCurrency(item.price * 0.9)}{" "}</span>
-                <span style={{color:"white"}} className="transfer-discount">(10% OFF)</span>
+              <p style={{ color: "#00a650" }} className="transfer-price">
+                Transferencia:{" "}
+                <span style={{ color: "red" }}>
+                  {formatCurrency(item.price * 0.9)}{" "}
+                </span>
+                <span style={{ color: "white" }} className="transfer-discount">
+                  (10% OFF)
+                </span>
               </p>
             </div>
           </div>
@@ -247,3 +252,5 @@ const ItemDetailContainer = () => {
 };
 
 export default ItemDetailContainer;
+
+// CODIGO NO ACTUALIZADO

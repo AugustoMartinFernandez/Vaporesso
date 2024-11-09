@@ -110,6 +110,15 @@ const Login = () => {
           </button>
         </div>
       )}
+       <div className="security-info">
+        <h3>Seguridad y Privacidad</h3>
+        <ul>
+          <li>Tu información personal está protegida con encriptación de última generación.</li>
+          <li>Utilizamos autenticación segura para proteger tu cuenta.</li>
+          <li>Nunca compartiremos tus datos con terceros sin tu consentimiento.</li>
+          <li>Accede a nuestra amplia selección de productos una vez que inicies sesión.</li>
+        </ul>
+      </div>
     </div>
   );
 };

@@ -67,7 +67,7 @@ const Item = ({ item }) => {
         <span className="item-price">
           ${typeof item.price === "number" ? item.price.toLocaleString() : 0}
         </span>
-        <button style={{width:"50%"}}
+        <button style={{width:"auto"}}
           className={`item-buy-button ${
             cartQuantity >= item.stock ? "btn-secondary" : "btn-primary"
           }`}

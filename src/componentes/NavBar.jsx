@@ -15,14 +15,14 @@ const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isLoginPage = location.pathname === '/login';
+  const isLoginPage = location.pathname === "/login";
 
   const handleNavClick = () => setExpanded(false);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
@@ -36,16 +36,22 @@ const NavBar = () => {
       className={`NavBar ${isDark ? "" : "light-theme"}`}
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="titulo" onClick={handleNavClick}>
-          NeoVape
+        <Navbar.Brand
+          as={Link}
+          to="/"
+          className="titulo"
+          onClick={handleNavClick}
+        >
+          <span className="titulo-inicial">N</span>eo
+          <span className="titulo-inicial">V</span>ape
         </Navbar.Brand>
-        
+
         {!isLoginPage && user && <CartWidget />}
-        
+
         <Navbar.Toggle aria-controls="basic-navbar-nav">
           <AiOutlineMenu size={24} color={isDark ? "white" : "black"} />
         </Navbar.Toggle>
-        
+
         <Navbar.Collapse id="basic-navbar-nav">
           {user && !isLoginPage ? (
             <>
@@ -53,16 +59,30 @@ const NavBar = () => {
                 <Nav.Link as={Link} to="/products" onClick={handleNavClick}>
                   Productos
                 </Nav.Link>
-                <Nav.Link as={Link} to="/category/Recargable" onClick={handleNavClick}>
+                <Nav.Link
+                  as={Link}
+                  to="/category/Recargable"
+                  onClick={handleNavClick}
+                >
                   Recargables
                 </Nav.Link>
-                <Nav.Link as={Link} to="/category/Descartable" onClick={handleNavClick}>
+                <Nav.Link
+                  as={Link}
+                  to="/category/Descartable"
+                  onClick={handleNavClick}
+                >
                   Descartables
                 </Nav.Link>
               </Nav>
               <div className="user-section">
                 <span className="user-email">{user.email}</span>
-                <Button style={{backgroundColor:"purple"}}  onClick={handleLogout} variant={isDark ? "outline-light" : "outline-dark"} size="sm">
+                <Button
+                  className="cerrar-secion"
+                  style={{ backgroundColor: "#8a2be2" }}
+                  onClick={handleLogout}
+                  variant={isDark ? "outline-light" : "outline-dark"}
+                  size="sm"
+                >
                   Cerrar Sesión
                 </Button>
               </div>
@@ -78,3 +98,5 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+// CODIGO NO ACTUALIZADO

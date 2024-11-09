@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useCart } from './CartContext';
-import { db } from '../firebase/config';
-import { collection, addDoc, doc, updateDoc, increment } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { useCart } from "./CartContext";
+import { db } from "../firebase/config";
+import {
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
@@ -11,26 +17,42 @@ const Checkout = () => {
   const cartTotal = getCartTotal();
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    street: '',
-    number: '',
-    city: '',
-    province: '',
-    postalCode: '',
-    description: ''
+    name: "",
+    email: "",
+    phone: "",
+    street: "",
+    number: "",
+    city: "",
+    province: "",
+    postalCode: "",
+    description: "",
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("es-AR", {
+      style: "currency",
+      currency: "ARS",
+      minimumFractionDigits: 2,
+    }).format(value);
+
   useEffect(() => {
-    // Validar que todos los campos requeridos estén completos
-    const requiredFields = ['name', 'email', 'phone', 'street', 'number', 'city', 'province', 'postalCode'];
-    const isValid = requiredFields.every(field => formData[field].trim() !== '');
-    
-    // Validaciones adicionales
+    const requiredFields = [
+      "name",
+      "email",
+      "phone",
+      "street",
+      "number",
+      "city",
+      "province",
+      "postalCode",
+    ];
+    const isValid = requiredFields.every(
+      (field) => formData[field].trim() !== ""
+    );
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{10}$/;
     const postalCodeRegex = /^\d{4}$/;
@@ -39,52 +61,54 @@ const Checkout = () => {
     const isPhoneValid = phoneRegex.test(formData.phone);
     const isPostalCodeValid = postalCodeRegex.test(formData.postalCode);
 
-    setIsFormValid(isValid && isEmailValid && isPhoneValid && isPostalCodeValid);
+    setIsFormValid(
+      isValid && isEmailValid && isPhoneValid && isPostalCodeValid
+    );
   }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const validateField = (name, value) => {
     switch (name) {
-      case 'email':
+      case "email":
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-          return 'Ingrese un email válido';
+          return "Ingrese un email válido";
         }
         break;
-      case 'phone':
+      case "phone":
         if (!/^\d{10}$/.test(value)) {
-          return 'El teléfono debe tener 10 dígitos';
+          return "El teléfono debe tener 10 dígitos";
         }
         break;
-      case 'postalCode':
+      case "postalCode":
         if (!/^\d{4}$/.test(value)) {
-          return 'El código postal debe tener 4 dígitos';
+          return "El código postal debe tener 4 dígitos";
         }
         break;
       default:
         if (!value.trim()) {
-          return 'Este campo es requerido';
+          return "Este campo es requerido";
         }
     }
-    return '';
+    return "";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!isFormValid) {
-      toast.error('Por favor, complete todos los campos correctamente');
+      toast.error("Por favor, complete todos los campos correctamente");
       return;
     }
 
     if (cartItems.length === 0) {
-      toast.error('El carrito está vacío');
+      toast.error("El carrito está vacío");
       return;
     }
 
@@ -102,37 +126,36 @@ const Checkout = () => {
             city: formData.city,
             province: formData.province,
             postalCode: formData.postalCode,
-            description: formData.description || 'Sin descripción adicional'
-          }
+            description: formData.description || "Sin descripción adicional",
+          },
         },
-        items: cartItems.map(item => ({
+        items: cartItems.map((item) => ({
           id: item.id,
           title: item.title,
           price: item.price,
-          quantity: item.quantity
+          quantity: item.quantity,
+          picturUrl: item.picturUrl,
         })),
         total: cartTotal,
         date: new Date(),
-        status: 'generada'
+        status: "generada",
       };
 
-      // Crear la orden
-      const docRef = await addDoc(collection(db, 'orders'), order);
+      const docRef = await addDoc(collection(db, "orders"), order);
 
-      // Actualizar el stock de cada producto
       for (const item of cartItems) {
-        const productRef = doc(db, 'products', item.id);
+        const productRef = doc(db, "products", item.id);
         await updateDoc(productRef, {
-          stock: increment(-item.quantity)
+          stock: increment(-item.quantity),
         });
       }
 
       clearCart();
-      toast.success('¡Orden creada exitosamente!');
+      toast.success("¡Orden creada exitosamente!");
       navigate(`/order-confirmation/${docRef.id}`);
     } catch (error) {
-      console.error('Error al crear la orden:', error);
-      toast.error('Error al procesar la orden');
+      console.error("Error al crear la orden:", error);
+      toast.error("Error al procesar la orden");
     } finally {
       setIsSubmitting(false);
     }
@@ -140,24 +163,27 @@ const Checkout = () => {
 
   return (
     <div className="checkout-container">
-      <h2 style={{textAlign:"center"}}>Finalizar Compra</h2>
+      {/* <h2 style={{ textAlign: "center" }}>Finalizar Compra</h2> */}
       <div className="order-summary">
-        <h3>Resumen de la Orden</h3>
-        {cartItems.map(item => (
+        <span className="order-status">Orden en proceso</span>
+        <h3>Resumen de la compra</h3>
+        {cartItems.map((item) => (
           <div key={item.id} className="order-item">
-            <span style={{color:"red"}}>{item.title}</span>
-            <span style={{color:"red"}}>Cantidad: {item.quantity}</span>
-            <span>${item.price * item.quantity}</span>
+            <span>{item.title}</span>
+            <span>Cantidad: {item.quantity}</span>
+            <span>{formatCurrency(item.price * item.quantity)}</span>
           </div>
         ))}
         <div className="order-total">
-          <strong>Total: ${cartTotal}</strong>
+          <span>Total a pagar</span>
+          <span>{formatCurrency(cartTotal)}</span>
         </div>
       </div>
-
       <form onSubmit={handleSubmit} className="checkout-form">
         <div className="form-section">
-          <h4>Información Personal</h4>
+          <h4 style={{ color: "#8a2be2", textAlign: "center" }}>
+            Información Personal
+          </h4>
           <div className="form-group">
             <label htmlFor="name">Nombre completo *</label>
             <input
@@ -169,11 +195,12 @@ const Checkout = () => {
               placeholder="Ej: Juan Pérez"
               required
             />
-            {formData.name && validateField('name', formData.name) && 
-              <span className="error-message">{validateField('name', formData.name)}</span>
-            }
+            {formData.name && validateField("name", formData.name) && (
+              <span className="error-message">
+                {validateField("name", formData.name)}
+              </span>
+            )}
           </div>
-
           <div className="form-group">
             <label htmlFor="email">Email *</label>
             <input
@@ -185,11 +212,12 @@ const Checkout = () => {
               placeholder="ejemplo@correo.com"
               required
             />
-            {formData.email && validateField('email', formData.email) && 
-              <span className="error-message">{validateField('email', formData.email)}</span>
-            }
+            {formData.email && validateField("email", formData.email) && (
+              <span className="error-message">
+                {validateField("email", formData.email)}
+              </span>
+            )}
           </div>
-
           <div className="form-group">
             <label htmlFor="phone">Teléfono *</label>
             <input
@@ -201,12 +229,13 @@ const Checkout = () => {
               placeholder="Ej: 1234567890"
               required
             />
-            {formData.phone && validateField('phone', formData.phone) && 
-              <span className="error-message">{validateField('phone', formData.phone)}</span>
-            }
+            {formData.phone && validateField("phone", formData.phone) && (
+              <span className="error-message">
+                {validateField("phone", formData.phone)}
+              </span>
+            )}
           </div>
         </div>
-
         <div className="form-section">
           <h4>Dirección de Envío</h4>
           <div className="form-group">
@@ -221,7 +250,6 @@ const Checkout = () => {
               required
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="number">Número *</label>
             <input
@@ -234,7 +262,6 @@ const Checkout = () => {
               required
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="city">Ciudad *</label>
             <input
@@ -247,7 +274,6 @@ const Checkout = () => {
               required
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="province">Provincia *</label>
             <input
@@ -260,7 +286,6 @@ const Checkout = () => {
               required
             />
           </div>
-
           <div className="form-group">
             <label htmlFor="postalCode">Código Postal *</label>
             <input
@@ -272,13 +297,17 @@ const Checkout = () => {
               placeholder="Ej: 1234"
               required
             />
-            {formData.postalCode && validateField('postalCode', formData.postalCode) && 
-              <span className="error-message">{validateField('postalCode', formData.postalCode)}</span>
-            }
+            {formData.postalCode &&
+              validateField("postalCode", formData.postalCode) && (
+                <span className="error-message">
+                  {validateField("postalCode", formData.postalCode)}
+                </span>
+              )}
           </div>
-
           <div className="form-group">
-            <label htmlFor="description">Descripción adicional (opcional)</label>
+            <label htmlFor="description">
+              Descripción adicional (opcional)
+            </label>
             <textarea
               id="description"
               name="description"
@@ -289,13 +318,12 @@ const Checkout = () => {
             />
           </div>
         </div>
-
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="submit-button"
           disabled={!isFormValid || isSubmitting}
         >
-          {isSubmitting ? 'Procesando...' : 'Confirmar Compra'}
+          {isSubmitting ? "Procesando..." : "Confirmar Compra"}
         </button>
       </form>
     </div>
@@ -303,3 +331,5 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+// CODIGO NO ACTUALIZADO

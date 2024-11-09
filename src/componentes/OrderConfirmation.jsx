@@ -9,6 +9,13 @@ const OrderConfirmation = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat("es-AR", {
+      style: "currency",
+      currency: "ARS",
+      minimumFractionDigits: 2,
+    }).format(value);
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -28,113 +35,79 @@ const OrderConfirmation = () => {
     fetchOrder();
   }, [orderId]);
 
-  const containerStyle = {
-    maxWidth: "600px",
-    margin: "0 auto",
-    padding: "20px",
-    backgroundColor: "#fff",
-    borderRadius: "8px",
-    marginTop: "20px",
-  };
-
-  const buttonStyle = {
-    width: "200px",
-    margin: "5px",
-  };
-
   if (loading)
-    return (
-      <div style={containerStyle}>Cargando información de la orden...</div>
-    );
-  if (error) return <div style={containerStyle}>Error: {error}</div>;
-  if (!order) return <div style={containerStyle}>No se encontró la orden.</div>;
+    return <div className="loading">Cargando información de la orden...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
+  if (!order) return <div className="not-found">No se encontró la orden.</div>;
 
   return (
-    <div style={containerStyle}>
-      <h2 style={{ textAlign: "center", color: "#333" }}>Pedido Confirmado</h2>
-
-      <div
-        style={{
-          marginBottom: "20px",
-          padding: "10px",
-          backgroundColor: "#f8f9fa",
-          borderRadius: "4px",
-        }}
-      >
-        <p>
-          <strong>Número de orden:</strong> {order.id}
-        </p>
-        <p>
-          <strong>Total:</strong> ${order.total.toFixed(2)}
-        </p>
+    <div className="order-confirmation">
+      <div className="order-success-header">
+        <div className="success-icon">✓</div>
+        <h2>¡Listo! Se generó tu orden</h2>
+        <p>Número de orden: {order.id}</p>
       </div>
 
-      <div style={{ marginBottom: "20px" }}>
-        <h3 style={{ color: "#444" }}>Detalles del comprador:</h3>
-        <div style={{ padding: "10px" }}>
-          <p>
-            <strong>Nombre:</strong> {order.buyer.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {order.buyer.email}
-          </p>
-          <p>
-            <strong>Teléfono:</strong> {order.buyer.phone}
-          </p>
-          <p>
-            <strong>Dirección:</strong>
-          </p>
-          <div style={{ marginLeft: "15px" }}>
-            <p>
-              {order.buyer.address?.street} {order.buyer.address?.number}
-            </p>
-            <p>
-              {order.buyer.address?.city}, {order.buyer.address?.province}
-            </p>
-            <p>CP: {order.buyer.address?.postalCode}</p>
-            {order.buyer.address?.description && (
-              <p>{order.buyer.address.description}</p>
-            )}
+      <div className="order-details-container">
+        <div className="order-details-header">
+          <h3>Detalles de la compra</h3>
+        </div>
+
+        <div className="order-info">
+          <div className="order-info-item">
+            <span className="order-info-label">Fecha de compra</span>
+            <span className="order-info-value">
+              {order.date.toDate().toLocaleString()}
+            </span>
           </div>
+          <div className="order-info-item">
+            <span className="order-info-label">Comprador</span>
+            <span className="order-info-value">{order.buyer.name}</span>
+          </div>
+        </div>
+
+        <div className="order-products">
+          {order.items.map((item) => (
+            <div key={item.id} className="product-item">
+              <div className="product-image-container">
+                <img
+                  src={item.picturUrl}
+                  alt={item.title}
+                  className="product-image"
+                  onError={(e) => {
+                    e.target.src = "/placeholder.jpg";
+                    e.target.onerror = null;
+                  }}
+                />
+              </div>
+              <div className="product-details">
+                <div className="product-title">{item.title}</div>
+                <div className="product-quantity">
+                  Cantidad: {item.quantity}
+                </div>
+                <div className="product-price">
+                  {formatCurrency(item.price)}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="order-total">
+          <span className="total-label">Total</span>
+          <span className="total-amount">{formatCurrency(order.total)}</span>
         </div>
       </div>
 
-      <div style={{ marginBottom: "20px" }}>
-        <h3 style={{ color: "#444" }}>Productos:</h3>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {order.items.map((item) => (
-            <li
-              key={item.id}
-              style={{
-                padding: "10px",
-                borderBottom: "1px solid #eee",
-                fontSize: "14px",
-              }}
-            >
-              {item.title} - Cantidad: {item.quantity} - Precio: $
-              {item.price.toFixed(2)}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <p style={{ marginBottom: "20px" }}>
-        <strong>Fecha de la orden:</strong>{" "}
-        {order.date.toDate().toLocaleString()}
-      </p>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "10px",
-          flexWrap: "wrap",
-        }}
-      >
-        <Link to="/" className="btn btn-primary" style={buttonStyle}>
-          Volver a inicio
+      <div className="action-buttons">
+        <Link
+          style={{ backgroundColor: "#8a2be2" }}
+          to="/"
+          className="action-button primary-button"
+        >
+          Volver al inicio
         </Link>
-        <Link to="/products" className="btn btn-primary" style={buttonStyle}>
+        <Link to="/products" className="action-button secondary-button">
           Seguir comprando
         </Link>
       </div>
@@ -143,3 +116,5 @@ const OrderConfirmation = () => {
 };
 
 export default OrderConfirmation;
+
+// CODIGO NO ACTUALIZADO
