@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-import { toast } from 'react-hot-toast';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
 
@@ -17,7 +23,7 @@ const Login = () => {
       toast.error("Por favor, completa todos los campos");
       return;
     }
-
+    setLoading(true);
     try {
       if (isRegistering) {
         await createUserWithEmailAndPassword(auth, email, password);
@@ -26,14 +32,19 @@ const Login = () => {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Inicio de sesión exitoso");
       }
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error(error);
-      if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+      if (
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
         toast.error("Correo o contraseña incorrectos");
       } else {
         toast.error("Error al iniciar sesión. Por favor, intenta de nuevo.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,13 +53,18 @@ const Login = () => {
       toast.error("Por favor, ingresa tu correo electrónico");
       return;
     }
+    setLoading(true);
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success("Se ha enviado un correo para restablecer tu contraseña");
       setIsResettingPassword(false);
     } catch (error) {
       console.error(error);
-      toast.error("Error al enviar el correo de recuperación. Verifica tu dirección de correo.");
+      toast.error(
+        "Error al enviar el correo de recuperación. Verifica tu dirección de correo."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,16 +94,26 @@ const Login = () => {
             placeholder="Ingresa tu contraseña"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          {isRegistering ? "Crear cuenta" : "Iniciar sesión"}
+        <button type="submit" className="btn btn-primary" disabled={loading}>
+          {loading ? "Procesando..." : isRegistering ? "Crear cuenta" : "Iniciar sesión"}
         </button>
       </form>
       <div className="auth-options">
-        <button onClick={() => setIsRegistering(!isRegistering)} className="btn btn-link">
-          {isRegistering ? "¿Ya tienes una cuenta? Inicia sesión" : "¿No tienes una cuenta? Regístrate"}
+        <button
+          onClick={() => setIsRegistering(!isRegistering)}
+          className="btn btn-link"
+          disabled={loading}
+        >
+          {isRegistering
+            ? "¿Ya tienes una cuenta? Inicia sesión"
+            : "¿No tienes una cuenta? Regístrate"}
         </button>
         {!isRegistering && (
-          <button onClick={() => setIsResettingPassword(true)} className="btn btn-link">
+          <button
+            onClick={() => setIsResettingPassword(true)}
+            className="btn btn-link"
+            disabled={loading}
+          >
             ¿Olvidaste tu contraseña?
           </button>
         )}
@@ -95,28 +121,43 @@ const Login = () => {
       {isResettingPassword && (
         <div className="reset-password">
           <h3>Restablecer contraseña</h3>
-          <p>Ingresa tu correo electrónico para recibir un enlace de restablecimiento de contraseña.</p>
+          <p>
+            Ingresa tu correo electrónico para recibir un enlace de
+            restablecimiento de contraseña.
+          </p>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Correo electrónico"
           />
-          <button onClick={handleResetPassword} className="btn btn-secondary">
-            Enviar enlace de restablecimiento
+          <button onClick={handleResetPassword} className="btn btn-secondary" disabled={loading}>
+            {loading ? "Enviando..." : "Enviar enlace de restablecimiento"}
           </button>
-          <button onClick={() => setIsResettingPassword(false)} className="btn btn-link">
+          <button
+            onClick={() => setIsResettingPassword(false)}
+            className="btn btn-link"
+            disabled={loading}
+          >
             Cancelar
           </button>
         </div>
       )}
-       <div className="security-info">
+      <div className="security-info">
         <h3>Seguridad y Privacidad</h3>
         <ul>
-          <li>Tu información personal está protegida con encriptación de última generación.</li>
+          <li>
+            Tu información personal está protegida con encriptación de última
+            generación.
+          </li>
           <li>Utilizamos autenticación segura para proteger tu cuenta.</li>
-          <li>Nunca compartiremos tus datos con terceros sin tu consentimiento.</li>
-          <li>Accede a nuestra amplia selección de productos una vez que inicies sesión.</li>
+          <li>
+            Nunca compartiremos tus datos con terceros sin tu consentimiento.
+          </li>
+          <li>
+            Accede a nuestra amplia selección de productos una vez que inicies
+            sesión.
+          </li>
         </ul>
       </div>
     </div>

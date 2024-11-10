@@ -18,6 +18,7 @@ const OrderConfirmation = () => {
 
   useEffect(() => {
     const fetchOrder = async () => {
+      setLoading(true);
       try {
         const orderDoc = await getDoc(doc(db, "orders", orderId));
         if (orderDoc.exists()) {
@@ -35,10 +36,38 @@ const OrderConfirmation = () => {
     fetchOrder();
   }, [orderId]);
 
-  if (loading)
-    return <div className="loading">Cargando información de la orden...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
-  if (!order) return <div className="not-found">No se encontró la orden.</div>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Cargando información de la orden...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-message">
+          <i className="fas fa-exclamation-circle"></i>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!order) {
+    return (
+      <div className="not-found-container">
+        <div className="not-found-message">
+          <i className="fas fa-search"></i>
+          <p>No se encontró la orden.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="order-confirmation">

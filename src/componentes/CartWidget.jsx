@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { FaShoppingCart } from "react-icons/fa";
-import { useCart } from "./CartContext";
-import CartDrawer from "./CartDrawer";
+import { FaShoppingCart } from "react-icons/fa"; // Importa el ícono del carrito
+import { useCart } from "./CartContext"; // Importa el contexto del carrito
+import CartDrawer from "./CartDrawer"; // Importa el componente del drawer
 
 const CartWidget = () => {
+  // Obtiene el contador de items del contexto del carrito
   const { itemCount } = useCart();
+  // Estado local para controlar la visibilidad del drawer
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
@@ -32,4 +34,3 @@ const CartWidget = () => {
 export default CartWidget;
 
 // CODIGO NO ACTUALIZADO
-

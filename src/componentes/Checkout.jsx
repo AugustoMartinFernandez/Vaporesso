@@ -15,7 +15,6 @@ const Checkout = () => {
   const { cartItems, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
   const cartTotal = getCartTotal();
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,9 +26,9 @@ const Checkout = () => {
     postalCode: "",
     description: "",
   });
-
   const [isFormValid, setIsFormValid] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const formatCurrency = (value) =>
     new Intl.NumberFormat("es-AR", {
@@ -52,15 +51,12 @@ const Checkout = () => {
     const isValid = requiredFields.every(
       (field) => formData[field].trim() !== ""
     );
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{10}$/;
     const postalCodeRegex = /^\d{4}$/;
-
     const isEmailValid = emailRegex.test(formData.email);
     const isPhoneValid = phoneRegex.test(formData.phone);
     const isPostalCodeValid = postalCodeRegex.test(formData.postalCode);
-
     setIsFormValid(
       isValid && isEmailValid && isPhoneValid && isPostalCodeValid
     );
@@ -101,19 +97,16 @@ const Checkout = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!isFormValid) {
       toast.error("Por favor, complete todos los campos correctamente");
       return;
     }
-
     if (cartItems.length === 0) {
       toast.error("El carrito está vacío");
       return;
     }
-
     setIsSubmitting(true);
-
+    setLoading(true);
     try {
       const order = {
         buyer: {
@@ -140,16 +133,13 @@ const Checkout = () => {
         date: new Date(),
         status: "generada",
       };
-
       const docRef = await addDoc(collection(db, "orders"), order);
-
       for (const item of cartItems) {
         const productRef = doc(db, "products", item.id);
         await updateDoc(productRef, {
           stock: increment(-item.quantity),
         });
       }
-
       clearCart();
       toast.success("¡Orden creada exitosamente!");
       navigate(`/order-confirmation/${docRef.id}`);
@@ -158,12 +148,12 @@ const Checkout = () => {
       toast.error("Error al procesar la orden");
     } finally {
       setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
     <div className="checkout-container">
-      {/* <h2 style={{ textAlign: "center" }}>Finalizar Compra</h2> */}
       <div className="order-summary">
         <span className="order-status">Orden en proceso</span>
         <h3>Resumen de la compra</h3>
@@ -185,7 +175,7 @@ const Checkout = () => {
             Información Personal
           </h4>
           <div className="form-group">
-            <label htmlFor="name">Nombre completo *</label>
+            <label htmlFor="name">Nombre completo </label>
             <input
               type="text"
               id="name"
@@ -202,7 +192,7 @@ const Checkout = () => {
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="email">Email *</label>
+            <label htmlFor="email">Email </label>
             <input
               type="email"
               id="email"
@@ -219,7 +209,7 @@ const Checkout = () => {
             )}
           </div>
           <div className="form-group">
-            <label htmlFor="phone">Teléfono *</label>
+            <label htmlFor="phone">Teléfono </label>
             <input
               type="tel"
               id="phone"
@@ -239,43 +229,7 @@ const Checkout = () => {
         <div className="form-section">
           <h4>Dirección de Envío</h4>
           <div className="form-group">
-            <label htmlFor="street">Calle *</label>
-            <input
-              type="text"
-              id="street"
-              name="street"
-              value={formData.street}
-              onChange={handleChange}
-              placeholder="Ej: Av. Libertador"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="number">Número *</label>
-            <input
-              type="text"
-              id="number"
-              name="number"
-              value={formData.number}
-              onChange={handleChange}
-              placeholder="Ej: 1234"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="city">Ciudad *</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              placeholder="Ej: Buenos Aires"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="province">Provincia *</label>
+            <label htmlFor="province">Provincia </label>
             <input
               type="text"
               id="province"
@@ -287,9 +241,45 @@ const Checkout = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="postalCode">Código Postal *</label>
+            <label htmlFor="city">Ciudad </label>
             <input
               type="text"
+              id="city"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              placeholder="Ej: Buenos Aires"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="street">Calle </label>
+            <input
+              type="text"
+              id="street"
+              name="street"
+              value={formData.street}
+              onChange={handleChange}
+              placeholder="Ej: Av. Libertador"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="number">Número </label>
+            <input
+              type="number"
+              id="number"
+              name="number"
+              value={formData.number}
+              onChange={handleChange}
+              placeholder="Ej: 1234"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="postalCode">Código Postal </label>
+            <input
+              type="number"
               id="postalCode"
               name="postalCode"
               value={formData.postalCode}
@@ -321,9 +311,16 @@ const Checkout = () => {
         <button
           type="submit"
           className="submit-button"
-          disabled={!isFormValid || isSubmitting}
+          disabled={!isFormValid || isSubmitting || loading}
         >
-          {isSubmitting ? "Procesando..." : "Confirmar Compra"}
+          {loading ? (
+            <div className="loading-spinner-small">
+              <div className="spinner"></div>
+              <span>Procesando...</span>
+            </div>
+          ) : (
+            "Confirmar Compra"
+          )}
         </button>
       </form>
     </div>
@@ -331,5 +328,3 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
-// CODIGO NO ACTUALIZADO

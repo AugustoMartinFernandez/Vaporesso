@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db } from "../credenciales";
 import { Shield, Truck, Package, Award, ThumbsUp, Star } from "lucide-react";
 import { useCart } from "./CartContext";
+import ProductReviews from "./ProductReviews";
 import { toast } from "react-hot-toast";
 import DOMPurify from "dompurify";
 
 const ItemDetailContainer = () => {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [addingToCart, setAddingToCart] = useState(false);
   const [error, setError] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(1);
+
   const { itemId } = useParams();
-  const { addToCart, isInCart, cartItems, reservedItems } = useCart();
+  const { addToCart, isInCart, cartItems, operationLoading } = useCart();
 
   const validarDatosProducto = (datos) => {
     return (
@@ -33,13 +36,10 @@ const ItemDetailContainer = () => {
         if (!itemId || !/^[a-zA-Z0-9]+$/.test(itemId)) {
           throw new Error("ID de producto inválido");
         }
-
         const docRef = doc(db, "products", itemId);
         const docSnap = await getDoc(docRef);
-
         if (docSnap.exists()) {
           const datosProducto = { id: docSnap.id, ...docSnap.data() };
-
           if (validarDatosProducto(datosProducto)) {
             setItem(datosProducto);
           } else {
@@ -50,11 +50,11 @@ const ItemDetailContainer = () => {
         }
       } catch (err) {
         setError(err.message || "Error al cargar el producto");
+        toast.error(err.message || "Error al cargar el producto");
       } finally {
         setLoading(false);
       }
     };
-
     obtenerItem();
   }, [itemId]);
 
@@ -80,37 +80,52 @@ const ItemDetailContainer = () => {
     }
   };
 
-  const isReserved = () => {
-    return reservedItems && reservedItems.has(itemId);
-  };
-
-  const handleAddToCart = () => {
-    if (isReserved()) {
-      toast.error("Este producto está reservado temporalmente");
-      return;
-    }
-
+  const handleAddToCart = async () => {
     const availableStock = getAvailableStock();
     if (selectedQuantity > availableStock) {
       toast.error(`Solo hay ${availableStock} unidades disponibles`);
       return;
     }
-
-    addToCart(
-      {
-        id: item.id,
-        title: item.title,
-        price: item.price,
-        picturUrl: item.picturUrl,
-        stock: item.stock,
-      },
-      selectedQuantity
-    );
+    setAddingToCart(true);
+    try {
+      await addToCart(
+        {
+          id: item.id,
+          title: item.title,
+          price: item.price,
+          picturUrl: item.picturUrl,
+          stock: item.stock,
+        },
+        selectedQuantity
+      );
+    } finally {
+      setAddingToCart(false);
+    }
   };
 
-  if (loading) return <div className="loading">Cargando...</div>;
-  if (error) return <div className="error">{error}</div>;
-  if (!item) return <div>Producto no encontrado</div>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner"></div>
+          <p>Cargando producto...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-message">
+          <i className="fas fa-exclamation-circle"></i>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!item) return <div className="not-found">Producto no encontrado</div>;
 
   const availableStock = getAvailableStock();
 
@@ -144,6 +159,7 @@ const ItemDetailContainer = () => {
             </div>
           </div>
         </div>
+
         <div className="item-detail-info">
           <div className="seller-info">
             <ThumbsUp className="text-purple-600" size={16} />
@@ -185,16 +201,13 @@ const ItemDetailContainer = () => {
               </p>
             </div>
           </div>
+
           <div className="product-features">
             <h3>Características principales</h3>
             <div className="features-list">
               <div className="feature-item">
                 <Package className="text-purple-600" size={20} />
-                <span>
-                  {isReserved()
-                    ? "Producto reservado temporalmente"
-                    : `Nuevo - ${availableStock} unidades disponibles`}
-                </span>
+                <span>{`Nuevo - ${availableStock} unidades disponibles`}</span>
               </div>
               {item.features?.map((feature, index) => (
                 <div key={index} className="feature-item">
@@ -203,6 +216,7 @@ const ItemDetailContainer = () => {
               ))}
             </div>
           </div>
+
           <div className="purchase-section">
             <div className="quantity-selector">
               <label htmlFor="quantity" className="quantity">
@@ -213,7 +227,9 @@ const ItemDetailContainer = () => {
                 value={selectedQuantity}
                 onChange={handleQuantityChange}
                 className="quantity-select"
-                disabled={availableStock === 0 || isReserved()}
+                disabled={
+                  availableStock === 0 || addingToCart || operationLoading
+                }
               >
                 {Array.from({ length: availableStock }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -227,18 +243,25 @@ const ItemDetailContainer = () => {
             </div>
             <button
               className="item-cart-button"
-              disabled={availableStock === 0 || isReserved()}
+              disabled={
+                availableStock === 0 || addingToCart || operationLoading
+              }
               onClick={handleAddToCart}
             >
-              {availableStock === 0
-                ? "Sin Stock"
-                : isReserved()
-                ? "Producto Reservado"
-                : isInCart(item.id)
-                ? "Agregar más al carrito"
-                : "Agregar al carrito"}
+              {availableStock === 0 ? (
+                "Sin Stock"
+              ) : addingToCart || operationLoading ? (
+                <div className="spinner-border spinner-border-sm" role="status">
+                  <span className="visually-hidden">Agregando...</span>
+                </div>
+              ) : isInCart(item.id) ? (
+                "Agregar más al carrito"
+              ) : (
+                "Agregar al carrito"
+              )}
             </button>
           </div>
+
           <div className="description-section">
             <h3 className="h3-description">Descripción</h3>
             <p className="description">
@@ -247,10 +270,9 @@ const ItemDetailContainer = () => {
           </div>
         </div>
       </div>
+      {item && <ProductReviews productId={item.id} />}
     </div>
   );
 };
 
 export default ItemDetailContainer;
-
-// CODIGO NO ACTUALIZADO

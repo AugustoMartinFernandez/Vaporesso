@@ -10,20 +10,19 @@ const CartDrawer = ({ isOpen, onClose }) => {
     removeFromCart,
     updateQuantity,
     clearCart,
-    reservedItems,
+    operationLoading,
   } = useCart();
+
   const [showConfirmClear, setShowConfirmClear] = useState(false);
   const [shippingCost, setShippingCost] = useState(0);
+  const [loadingOperation, setLoadingOperation] = useState(false);
+
   const navigate = useNavigate();
   const cartTotal = getCartTotal();
 
   useEffect(() => {
     const calculateShipping = () => {
-      if (cartTotal >= 85000) {
-        return 0;
-      } else {
-        return cartTotal * 0.15;
-      }
+      return cartTotal >= 85000 ? 0 : cartTotal * 0.15;
     };
     setShippingCost(calculateShipping());
   }, [cartTotal]);
@@ -37,7 +36,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   const getEstimatedDelivery = () => {
     const today = new Date();
-    const deliveryDate = new Date(today.setDate(today.getDate() + 3));
+    const deliveryDate = new Date(today.setDate(today.getDate() + 6));
     return deliveryDate.toLocaleDateString("es-AR", {
       weekday: "long",
       month: "long",
@@ -60,6 +59,34 @@ const CartDrawer = ({ isOpen, onClose }) => {
     return cartTotal * 0.92;
   };
 
+  const handleRemoveItem = async (itemId) => {
+    setLoadingOperation(true);
+    try {
+      await removeFromCart(itemId);
+    } finally {
+      setLoadingOperation(false);
+    }
+  };
+
+  const handleUpdateQuantity = async (itemId, newQuantity) => {
+    setLoadingOperation(true);
+    try {
+      await updateQuantity(itemId, newQuantity);
+    } finally {
+      setLoadingOperation(false);
+    }
+  };
+
+  const handleClearCart = async () => {
+    setLoadingOperation(true);
+    try {
+      await clearCart();
+      setShowConfirmClear(false);
+    } finally {
+      setLoadingOperation(false);
+    }
+  };
+
   const handleGenerateOrder = () => {
     onClose();
     navigate("/checkout");
@@ -80,6 +107,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
           </h5>
           <button onClick={onClose} className="btn-close" aria-label="Cerrar" />
         </div>
+
         {cartItems.length === 0 ? (
           <div className="empty-cart d-flex flex-column align-items-center justify-content-center p-4">
             <div className="empty-cart-icon mb-3">
@@ -117,24 +145,29 @@ const CartDrawer = ({ isOpen, onClose }) => {
                           {item.title}
                         </h6>
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => handleRemoveItem(item.id)}
                           className="btn btn-link text-danger p-0"
+                          disabled={loadingOperation || operationLoading}
                         >
-                          <Trash2 size={18} />
+                          {loadingOperation ? (
+                            <div className="spinner-border spinner-border-sm" />
+                          ) : (
+                            <Trash2 size={18} />
+                          )}
                         </button>
                       </div>
-                      <p className="text-success small mb-2">
-                        {reservedItems.has(item.id)
-                          ? "Reservado por 30 minutos"
-                          : "En stock"}
-                      </p>
+                      <p className="text-success small mb-2">En stock</p>
                       <div className="d-flex align-items-center gap-2 mb-2">
                         <div className="btn-group" role="group">
                           <button
                             onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
+                              handleUpdateQuantity(item.id, item.quantity - 1)
                             }
-                            disabled={item.quantity <= 1}
+                            disabled={
+                              item.quantity <= 1 ||
+                              loadingOperation ||
+                              operationLoading
+                            }
                             className="btn btn-outline-secondary btn-sm"
                           >
                             <Minus size={16} />
@@ -144,9 +177,13 @@ const CartDrawer = ({ isOpen, onClose }) => {
                           </span>
                           <button
                             onClick={() =>
-                              updateQuantity(item.id, item.quantity + 1)
+                              handleUpdateQuantity(item.id, item.quantity + 1)
                             }
-                            disabled={item.quantity >= item.stock}
+                            disabled={
+                              item.quantity >= item.stock ||
+                              loadingOperation ||
+                              operationLoading
+                            }
                             className="btn btn-outline-secondary btn-sm"
                           >
                             <Plus size={16} />
@@ -163,6 +200,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   </div>
                 </div>
               ))}
+
               <div className="shipping-info bg-light p-3">
                 <div className="d-flex align-items-center gap-2 text-primary mb-2">
                   <Truck size={20} />
@@ -177,6 +215,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                 </p>
               </div>
             </div>
+
             <div className="cart-summary border-top p-3">
               <div className="mb-3">
                 <div className="d-flex justify-content-between text-muted mb-2">
@@ -201,6 +240,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   </span>
                 </div>
               </div>
+
               <div className="payment-options bg-light rounded p-3 mb-3">
                 <div className="d-flex align-items-center gap-2 mb-2">
                   <CreditCard size={20} className="text-success" />
@@ -218,22 +258,34 @@ const CartDrawer = ({ isOpen, onClose }) => {
                   (10% descuento)
                 </p>
               </div>
+
               <div style={{ justifyItems: "center" }} className="d-grid gap-2">
                 <button
                   style={{ width: "50%" }}
                   className="btn btn-primary"
                   onClick={handleGenerateOrder}
+                  disabled={loadingOperation || operationLoading}
                 >
-                  Generar orden
+                  {loadingOperation || operationLoading ? (
+                    <div className="spinner-border spinner-border-sm" />
+                  ) : (
+                    "Generar orden"
+                  )}
                 </button>
                 <button
                   style={{ width: "50%" }}
                   onClick={() => setShowConfirmClear(true)}
                   className="btn btn-danger"
+                  disabled={loadingOperation || operationLoading}
                 >
-                  Vaciar carrito
+                  {loadingOperation || operationLoading ? (
+                    <div className="spinner-border spinner-border-sm" />
+                  ) : (
+                    "Vaciar carrito"
+                  )}
                 </button>
               </div>
+
               <div className="d-flex align-items-center gap-2 mt-3">
                 <Shield size={20} className="text-warning" />
                 <span className="small text-muted">
@@ -243,6 +295,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
             </div>
           </>
         )}
+
         {showConfirmClear && (
           <div className="confirm-clear-modal">
             <div className="modal-content shadow">
@@ -251,17 +304,20 @@ const CartDrawer = ({ isOpen, onClose }) => {
               </h5>
               <div className="modal-actions d-flex justify-content-center gap-3 mt-4">
                 <button
-                  onClick={() => {
-                    clearCart();
-                    setShowConfirmClear(false);
-                  }}
+                  onClick={handleClearCart}
                   className="btn btn-vaciar btn-lg"
+                  disabled={loadingOperation || operationLoading}
                 >
-                  Vaciar
+                  {loadingOperation || operationLoading ? (
+                    <div className="spinner-border spinner-border-sm" />
+                  ) : (
+                    "Vaciar"
+                  )}
                 </button>
                 <button
                   onClick={() => setShowConfirmClear(false)}
                   className="btn btn-cancelar btn-lg"
+                  disabled={loadingOperation || operationLoading}
                 >
                   Cancelar
                 </button>
@@ -275,5 +331,3 @@ const CartDrawer = ({ isOpen, onClose }) => {
 };
 
 export default CartDrawer;
-
-// CODIGO NO ACTUALIZADO
