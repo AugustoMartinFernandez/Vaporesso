@@ -69,96 +69,102 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>{isRegistering ? "Crea tu cuenta" : "Inicia sesión"}</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Correo electrónico</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="Ingresa tu correo electrónico"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Contraseña</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            placeholder="Ingresa tu contraseña"
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? "Procesando..." : isRegistering ? "Crear cuenta" : "Iniciar sesión"}
-        </button>
-      </form>
-      <div className="auth-options">
-        <button
-          onClick={() => setIsRegistering(!isRegistering)}
-          className="btn btn-link"
-          disabled={loading}
-        >
-          {isRegistering
-            ? "¿Ya tienes una cuenta? Inicia sesión"
-            : "¿No tienes una cuenta? Regístrate"}
-        </button>
-        {!isRegistering && (
-          <button
-            onClick={() => setIsResettingPassword(true)}
-            className="btn btn-link"
-            disabled={loading}
-          >
-            ¿Olvidaste tu contraseña?
-          </button>
-        )}
-      </div>
-      {isResettingPassword && (
-        <div className="reset-password">
-          <h3>Restablecer contraseña</h3>
-          <p>
-            Ingresa tu correo electrónico para recibir un enlace de
-            restablecimiento de contraseña.
-          </p>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Correo electrónico"
-          />
-          <button onClick={handleResetPassword} className="btn btn-secondary" disabled={loading}>
-            {loading ? "Enviando..." : "Enviar enlace de restablecimiento"}
-          </button>
-          <button
-            onClick={() => setIsResettingPassword(false)}
-            className="btn btn-link"
-            disabled={loading}
-          >
-            Cancelar
-          </button>
-        </div>
-      )}
+<div className="login-page">
+  <div className="login-info-section">
+    <div className="info-content">
+      <h1>Bienvenido a <span style={{color:"#8a2be2",fontWeight:"900"}}>N</span>eo<span style={{color:"#8a2be2",fontWeight:"800"}}>V</span>ape</h1>
+      <p className="login-intro">
+        Para acceder a nuestra exclusiva selección de productos y disfrutar de una experiencia personalizada, 
+        por favor inicia sesión o crea una cuenta. Tu seguridad es nuestra prioridad.
+      </p>
       <div className="security-info">
         <h3>Seguridad y Privacidad</h3>
         <ul>
-          <li>
-            Tu información personal está protegida con encriptación de última
-            generación.
-          </li>
-          <li>Utilizamos autenticación segura para proteger tu cuenta.</li>
-          <li>
-            Nunca compartiremos tus datos con terceros sin tu consentimiento.
-          </li>
-          <li>
-            Accede a nuestra amplia selección de productos una vez que inicies
-            sesión.
-          </li>
+          <li>🔒Tu información personal está protegida con encriptación de última generación.</li>
+          <li>🔒Utilizamos autenticación segura para proteger tu cuenta.</li>
+          <li>🔒Nunca compartiremos tus datos con terceros sin tu consentimiento.</li>
+          <li>🔒Accede a nuestra amplia selección de productos una vez que inicies sesión.</li>
         </ul>
+      </div>
+    </div>
+  </div>
+
+      <div className="login-form-section">
+        <div className="login-container">
+          <h2>{isRegistering ? "Crea tu cuenta" : "Inicia sesión"}</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">Correo electrónico</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Ingresa tu correo electrónico"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Contraseña</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Ingresa tu contraseña"
+              />
+            </div>
+            <button type="submit" className="btn btn-primary" disabled={loading}>
+              {loading ? "Procesando..." : isRegistering ? "Crear cuenta" : "Iniciar sesión"}
+            </button>
+          </form>
+          <div className="auth-options">
+            <button
+              onClick={() => setIsRegistering(!isRegistering)}
+              className="btn btn-link"
+              disabled={loading}
+            >
+              {isRegistering
+                ? "¿Ya tienes una cuenta? Inicia sesión"
+                : "¿No tienes una cuenta? Regístrate"}
+            </button>
+            {!isRegistering && (
+              <button
+                onClick={() => setIsResettingPassword(true)}
+                className="btn btn-link"
+                disabled={loading}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            )}
+          </div>
+          {isResettingPassword && (
+            <div className="reset-password">
+              <h3>Restablecer contraseña</h3>
+              <p>
+                Ingresa tu correo electrónico para recibir un enlace de
+                restablecimiento de contraseña.
+              </p>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Correo electrónico"
+              />
+              <button onClick={handleResetPassword} className="btn btn-secondary" disabled={loading}>
+                {loading ? "Enviando..." : "Enviar enlace de restablecimiento"}
+              </button>
+              <button
+                onClick={() => setIsResettingPassword(false)}
+                className="btn btn-link"
+                disabled={loading}
+              >
+                Cancelar
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

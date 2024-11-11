@@ -22,7 +22,7 @@ const Footer = lazy(() => import("./componentes/Footer"));
 const LoadingSpinner = () => (
   <div className="loading-spinner">
     <div className="spinner"></div>
-    <p>Cargando...</p>
+    <p></p>
   </div>
 );
 

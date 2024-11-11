@@ -77,7 +77,7 @@ const ProductReviews = ({ productId }) => {
 
   return (
     <div className="product-reviews">
-      <h3>Reseñas del producto</h3>
+      <h3 style={{color:"#8a2be2"}}>Reseñas del producto</h3>
       {reviews.length === 0 ? (
         <p className="no-reviews">
           Aún no hay reseñas para este producto. ¡Sé el primero en opinar!

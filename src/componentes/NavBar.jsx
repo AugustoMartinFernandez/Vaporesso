@@ -47,7 +47,6 @@ const NavBar = () => {
         </Navbar.Brand>
 
         {!isLoginPage && user && <CartWidget />}
-
         <Navbar.Toggle aria-controls="basic-navbar-nav">
           <AiOutlineMenu size={24} color={isDark ? "white" : "black"} />
         </Navbar.Toggle>
@@ -88,10 +87,10 @@ const NavBar = () => {
               </div>
             </>
           ) : null}
-          <Nav className="ms-auto">
-            <ThemeToggle />
-          </Nav>
         </Navbar.Collapse>
+        <Nav className="ms-auto">
+          <ThemeToggle />
+        </Nav>
       </Container>
     </Navbar>
   );

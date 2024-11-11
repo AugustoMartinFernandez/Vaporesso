@@ -191,12 +191,13 @@ const ItemDetailContainer = () => {
                 en 3x {formatCurrency(item.price / 3)} sin interés
               </p>
               <p style={{ color: "#00a650" }} className="transfer-price">
-                Transferencia:{" "}
-                <span style={{ color: "red" }}>
-                  {formatCurrency(item.price * 0.9)}{" "}
+                con transferencia
+                <span style={{ color: "white", marginLeft:"5px" }} className="transfer-discount">
+                  10% OFF
                 </span>
-                <span style={{ color: "white" }} className="transfer-discount">
-                  (10% OFF)
+                <br />
+                <span style={{ color: "red" }}>
+                  {formatCurrency(item.price * 0.9)}
                 </span>
               </p>
             </div>
@@ -263,7 +264,7 @@ const ItemDetailContainer = () => {
           </div>
 
           <div className="description-section">
-            <h3 className="h3-description">Descripción</h3>
+            <h3 style={{color:"#8a2be2"}} className="h3-description">Descripción</h3>
             <p className="description">
               {DOMPurify.sanitize(item.description)}
             </p>
