@@ -2116,6 +2116,42 @@ body.light-theme .submit-review-button:disabled {
 .btn-link {
   width: min-content;
 }
+.anuncio-rotativo {
+  background-color: white;
+  color: black;
+  text-align: center;
+  padding: 3px 0;
+  font-size: 0.75rem;
+  font-weight: bold;
+  overflow: hidden;
+}
+
+.anuncio-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  animation: slideIn 8s ease-in-out infinite;
+}
+
+.anuncio-contenido svg {
+  flex-shrink: 0;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
 
 @media (max-width: 768px) {
   body {

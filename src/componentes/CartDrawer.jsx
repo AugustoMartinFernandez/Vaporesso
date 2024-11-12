@@ -22,7 +22,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const calculateShipping = () => {
-      return cartTotal >= 85000 ? 0 : cartTotal * 0.15;
+      return cartTotal >= 8000 ? 0 : cartTotal * 0.15;
     };
     setShippingCost(calculateShipping());
   }, [cartTotal]);

@@ -16,7 +16,7 @@ const Home = ({ correoUsuario }) => {
     <main className="home-container">
       <div className="welcome-section">
         <h3 className="text-center">
-          Bienvenido Usuario <strong className="strong-usuario">{correoUsuario}</strong>
+          Bienvenido <strong className="strong-usuario">{correoUsuario}</strong>
         </h3>
       </div>
 

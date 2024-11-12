@@ -1,4 +1,5 @@
 # NeoVape - E-commerce de Productos de Vapeo
+
 ## Descripción del Proyecto
 NeoVape es una aplicación web desarrollada con React que ofrece una experiencia completa de compra de productos de vapeo. Los usuarios pueden explorar productos, gestionar su carrito de compras y realizar pedidos de manera segura.
 
@@ -10,6 +11,7 @@ NeoVape es una aplicación web desarrollada con React que ofrece una experiencia
 - Proceso de checkout
 - Tema claro/oscuro
 - Diseño responsive
+- Anuncio rotativo con ofertas y promociones
 
 ## Tecnologías Utilizadas
 - **React**: Biblioteca principal para construir la interfaz de usuario
@@ -41,8 +43,13 @@ NeoVape es una aplicación web desarrollada con React que ofrece una experiencia
 - Confirmación de orden
 - Generación de ID de orden
 
-## Justificación de Librerías
+### Anuncio Rotativo
+- Muestra ofertas y promociones de forma dinámica
+- Cambia automáticamente cada 8 segundos
+- Incluye iconos relevantes para cada mensaje
+- Diseño responsive y atractivo
 
+## Justificación de Librerías
 - **React Bootstrap**: Elegida por su facilidad de uso y componentes predefinidos que aceleran el desarrollo.
 - **React Hot Toast**: Proporciona notificaciones elegantes y personalizables con una API simple.
 - **Lucide React**: Ofrece iconos modernos y personalizables con buen rendimiento.
