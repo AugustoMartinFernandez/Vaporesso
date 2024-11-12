@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Truck, Calendar, CreditCard, Wallet } from 'lucide-react'; 
+import { Truck, Calendar, CreditCard, Wallet } from 'lucide-react';
 
 const AnuncioRotativo = () => {
+  const [indiceActual, setIndiceActual] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
   const anuncios = [
-    { texto: "Envío gratis en compras desde $90.000", icono: <Truck size={14} /> },
+    { texto: "Envío gratis en compras desde $50.000 ARS", icono: <Truck size={14} /> },
     { texto: "Descubre nuevos productos cada semana", icono: <Calendar size={14} /> },
     { texto: "Hasta 6 cuotas sin interés", icono: <CreditCard size={14} /> },
     { texto: "Descuento especial en transferencias", icono: <Wallet size={14} /> } 
   ];
 
-  const [indiceActual, setIndiceActual] = useState(0);
-
   useEffect(() => {
     const intervalo = setInterval(() => {
-      setIndiceActual((prevIndice) => (prevIndice + 1) % anuncios.length);
+      setIsVisible(false);
+      setTimeout(() => {
+        setIndiceActual((prevIndice) => (prevIndice + 1) % anuncios.length);
+        setIsVisible(true);
+      }, 500);
     }, 8000);
 
     return () => clearInterval(intervalo);
@@ -21,7 +26,9 @@ const AnuncioRotativo = () => {
 
   return (
     <div className="anuncio-rotativo">
-      <div className="anuncio-contenido">
+      <div 
+        className={`anuncio-contenido ${isVisible ? 'visible' : 'hidden'}`}
+      >
         {anuncios[indiceActual].icono}
         <span>{anuncios[indiceActual].texto}</span>
       </div>

@@ -9,7 +9,7 @@ const Item = ({ item }) => {
   
   if (!item) return null;
   
-  const { addToCart, isInCart, cartItems, operationLoading } = useCart();
+  const { addToCart, isInCart, cartItems } = useCart();
   const isLowStock = item.stock < 4;
 
   const handleAddToCart = async () => {
@@ -74,22 +74,17 @@ const Item = ({ item }) => {
           className={`item-buy-button ${
             cartQuantity >= item.stock ? "btn-secondary" : "btn-primary"
           }`}
-          disabled={
-            item.stock === 0 ||
-            cartQuantity >= item.stock ||
-            addingToCart ||
-            operationLoading
-          }
+          disabled={item.stock === 0 || cartQuantity >= item.stock || addingToCart}
           onClick={handleAddToCart}
         >
           {item.stock === 0 ? (
             "Sin Stock"
           ) : cartQuantity >= item.stock ? (
             "Stock máximo"
-          ) : addingToCart || operationLoading ? (
+          ) : addingToCart ? (
             <div className="loading-button-content">
               <div className="spinner-border spinner-border-sm" role="status" />
-              <span className="ms-2">Agregando...</span>
+              <span className="ms-1">Agregando</span>
             </div>
           ) : (
             <>
