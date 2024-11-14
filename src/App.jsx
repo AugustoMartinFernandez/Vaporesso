@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Routes,
   Navigate,
