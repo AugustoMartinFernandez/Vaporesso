@@ -302,7 +302,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
               <h5 className="text-center">
                 ¿Estás seguro de que deseas vaciar el carrito?
               </h5>
-              <div className="modal-actions d-flex justify-content-center gap-3 mt-4">
+              <div className="modal-actions d-flex justify-content-center gap-3 mt-4 btn-confir">
                 <button
                   onClick={handleClearCart}
                   className="btn btn-vaciar btn-lg"

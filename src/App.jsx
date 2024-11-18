@@ -26,6 +26,8 @@ const ItemDetailContainer = lazy(() =>
 const Checkout = lazy(() => import("./componentes/Checkout"));
 const OrderConfirmation = lazy(() => import("./componentes/OrderConfirmation"));
 const Footer = lazy(() => import("./componentes/Footer"));
+// Importa el componente SpeedInsights
+import { SpeedInsights } from "@vercel/speed-insights/react"; // Asegúrate de importar el componente
 
 // Componente de carga
 const LoadingSpinner = () => (
@@ -130,6 +132,7 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <Footer />
+        <SpeedInsights />
       </Suspense>
       <Toaster />
     </div>

@@ -178,7 +178,7 @@ const ItemDetailContainer = () => {
             <span className="ml-2 text-gray-400">250 valoraciones</span>
           </div>
           <div className="price-container">
-            <p className="previous-price">{formatCurrency(item.price * 1.2)}</p>
+            <p className="previous-price">{formatCurrency(item.price / 0.80)}</p>
             <div className="current-price">
               <span className="price">{formatCurrency(item.price)}</span>
               <span className="discount">20% OFF</span>
@@ -192,12 +192,15 @@ const ItemDetailContainer = () => {
               </p>
               <p style={{ color: "#00a650" }} className="transfer-price">
                 con transferencia
-                <span style={{ color: "white", marginLeft:"5px" }} className="transfer-discount">
+                <span
+                  style={{ color: "white", marginLeft: "5px" }}
+                  className="transfer-discount"
+                >
                   10% OFF
                 </span>
                 <br />
                 <span style={{ color: "red" }}>
-                  {formatCurrency(item.price * 0.9)}
+                  {formatCurrency(item.price * 0.90)}
                 </span>
               </p>
             </div>
@@ -264,7 +267,9 @@ const ItemDetailContainer = () => {
           </div>
 
           <div className="description-section">
-            <h3 style={{color:"#8a2be2"}} className="h3-description">Descripción</h3>
+            <h3 style={{ color: "#8a2be2" }} className="h3-description">
+              Descripción
+            </h3>
             <p className="description">
               {DOMPurify.sanitize(item.description)}
             </p>
