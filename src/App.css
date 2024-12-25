@@ -21,6 +21,7 @@
   border-radius: 30%;
 }
 
+
 /* Estilo en modo oscuro */
 .theme-toggle-btn.dark {
   color: black !important;
@@ -2147,6 +2148,8 @@ body.light-theme .submit-review-button:disabled {
   opacity: 0;
   transform: translateY(-100%);
 }
+
+
 
 @media (max-width: 768px) {
   body {

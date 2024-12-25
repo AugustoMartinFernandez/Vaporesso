@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -15,7 +15,9 @@ const Login = () => {
   const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const auth = getAuth();
+  const from = location.state?.from || '/';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const Login = () => {
         await signInWithEmailAndPassword(auth, email, password);
         toast.success("Inicio de sesión exitoso");
       }
-      navigate("/");
+      navigate(from);
     } catch (error) {
       console.error(error);
       if (
@@ -69,26 +71,24 @@ const Login = () => {
   };
 
   return (
-<div className="login-page">
-  <div className="login-info-section">
-    <div className="info-content">
-      <h1>Bienvenido a <span style={{color:"#8a2be2",fontWeight:"900"}}>N</span>eo<span style={{color:"#8a2be2",fontWeight:"800"}}>V</span>ape</h1>
-      <p className="login-intro">
-        Para acceder a nuestra exclusiva selección de productos y disfrutar de una experiencia personalizada, 
-        por favor inicia sesión o crea una cuenta. Tu seguridad es nuestra prioridad.
-      </p>
-      <div className="security-info">
-        <h3>Seguridad y Privacidad</h3>
-        <ul>
-          <li>🔒Tu información personal está protegida con encriptación de última generación.</li>
-          <li>🔒Utilizamos autenticación segura para proteger tu cuenta.</li>
-          <li>🔒Nunca compartiremos tus datos con terceros sin tu consentimiento.</li>
-          <li>🔒Accede a nuestra amplia selección de productos una vez que inicies sesión.</li>
-        </ul>
+    <div className="login-page">
+      <div className="login-info-section">
+        <div className="info-content">
+          <h1>Bienvenidos a <span style={{color:"#8a2be2",fontWeight:"900"}}>N</span>eo<span style={{color:"#8a2be2",fontWeight:"800"}}>V</span>ape</h1>
+          <p className="login-intro">
+            Para proceder con la compra, debes iniciar sesión por medidas de seguridad. Disfruta de una experiencia personalizada y segura.
+          </p>
+          <div className="security-info">
+            <h3>Seguridad y Privacidad</h3>
+            <ul>
+              <li>🔒Tu información personal está protegida con encriptación de última generación.</li>
+              <li>🔒Utilizamos autenticación segura para proteger tu cuenta.</li>
+              <li>🔒Nunca compartiremos tus datos con terceros sin tu consentimiento.</li>
+              <li>🔒Accede a nuestra amplia selección de productos una vez que inicies sesión.</li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-
       <div className="login-form-section">
         <div className="login-container">
           <h2>{isRegistering ? "Crea tu cuenta" : "Inicia sesión"}</h2>

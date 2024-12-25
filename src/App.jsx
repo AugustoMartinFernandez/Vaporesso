@@ -9,14 +9,11 @@ import {
 import { Toaster } from "react-hot-toast";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import appFirebase from "./credenciales";
-
-// Componentes que se cargan inmediatamente
 import NavBar from "./componentes/NavBar";
 import { ThemeProvider } from "./componentes/ThemeContext";
 import { CartProvider } from "./componentes/CartContext";
 import AnuncioRotativo from "./componentes/AnuncioRotativo";
 
-// Componentes con lazy loading
 const Login = lazy(() => import("./componentes/Login"));
 const Home = lazy(() => import("./componentes/Home"));
 const ItemListContainer = lazy(() => import("./componentes/ItemListContainer"));
@@ -26,10 +23,8 @@ const ItemDetailContainer = lazy(() =>
 const Checkout = lazy(() => import("./componentes/Checkout"));
 const OrderConfirmation = lazy(() => import("./componentes/OrderConfirmation"));
 const Footer = lazy(() => import("./componentes/Footer"));
-// Importa el componente SpeedInsights
-import { SpeedInsights } from "@vercel/speed-insights/react"; // Asegúrate de importar el componente
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
-// Componente de carga
 const LoadingSpinner = () => (
   <div className="loading-spinner">
     <div className="spinner"></div>
@@ -54,7 +49,6 @@ function AppContent() {
   const [loading, setLoading] = useState(true);
   const auth = getAuth(appFirebase);
   const location = useLocation();
-  const isLoginPage = location.pathname === "/login";
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (usuarioFirebase) => {
@@ -66,67 +60,38 @@ function AppContent() {
 
   if (loading) return <LoadingSpinner />;
 
-  const ProtectedRoute = ({ children }) => {
-    if (!usuario) return <Navigate to="/login" />;
-    return children;
-  };
-
   return (
     <div className="App">
-      {!isLoginPage && <AnuncioRotativo />}
+      <AnuncioRotativo />
       <NavBar />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
-          <Route
-            path="/login"
-            element={!usuario ? <Login /> : <Navigate to="/" />}
+          <Route path="/login" element={!usuario ? <Login /> : <Navigate to="/" />} />
+          <Route 
+            path="/" 
+            element={<Home correoUsuario={usuario ? usuario.email : null} />} 
           />
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home correoUsuario={usuario?.email} />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/products"
-            element={
-              <ProtectedRoute>
-                <ItemListContainer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/category/:categoryId"
-            element={
-              <ProtectedRoute>
-                <ItemListContainer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/item/:itemId"
-            element={
-              <ProtectedRoute>
-                <ItemDetailContainer />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/products" element={<ItemListContainer />} />
+          <Route path="/category/:categoryId" element={<ItemListContainer />} />
+          <Route path="/item/:itemId" element={<ItemDetailContainer />} />
           <Route
             path="/checkout"
             element={
-              <ProtectedRoute>
+              usuario ? (
                 <Checkout />
-              </ProtectedRoute>
+              ) : (
+                <Navigate to="/login" state={{ from: "/checkout" }} />
+              )
             }
           />
           <Route
             path="/order-confirmation/:orderId"
             element={
-              <ProtectedRoute>
+              usuario ? (
                 <OrderConfirmation />
-              </ProtectedRoute>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />

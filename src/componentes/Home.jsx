@@ -1,25 +1,16 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getAuth } from "firebase/auth";
+import { Link } from "react-router-dom";
 
 const Home = ({ correoUsuario }) => {
-  const navigate = useNavigate();
-  const auth = getAuth();
-
-  // Verificar si el usuario está autenticado
-  if (!auth.currentUser) {
-    navigate('/login');
-    return null;
-  }
-
   return (
     <main className="home-container">
-      <div className="welcome-section">
-        <h3 className="text-center">
-          Bienvenido <strong className="strong-usuario">{correoUsuario}</strong>
-        </h3>
-      </div>
-
+      {correoUsuario && (
+        <div className="welcome-section">
+          <h3 className="text-center">
+            Bienvenido <strong className="strong-usuario">{correoUsuario}</strong>
+          </h3>
+        </div>
+      )}
       <div className="hero-section">
         <div className="hero-content">
           <Link to="/products" className="explore-button">
@@ -27,7 +18,6 @@ const Home = ({ correoUsuario }) => {
           </Link>
         </div>
       </div>
-
       <section className="gif-grid">
         <div className="gif-container">
           <img
@@ -58,7 +48,6 @@ const Home = ({ correoUsuario }) => {
           </ul>
         </div>
       </section>
-
       <article className="info-sections">
         <section className="history-section info-card">
           <h2>La Evolución del Vapeo</h2>
@@ -71,7 +60,6 @@ const Home = ({ correoUsuario }) => {
             </li>
           </ul>
         </section>
-
         <section className="tips-section info-card">
           <h2>Consejos para Nuevos Vapers</h2>
           <ol>
@@ -80,7 +68,6 @@ const Home = ({ correoUsuario }) => {
             <li>Mantén tu equipo limpio.</li>
           </ol>
         </section>
-
         <section className="stats-section info-card">
           <h2>Datos Interesantes sobre el Vapeo</h2>
           <ul>
