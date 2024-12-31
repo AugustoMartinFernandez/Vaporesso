@@ -188,3 +188,6 @@ export const CartProvider = ({ children }) => {
 };
 
 export { CartContext };
+
+
+// codigo no actualizado

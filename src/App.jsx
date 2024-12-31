@@ -13,22 +13,22 @@ import NavBar from "./componentes/NavBar";
 import { ThemeProvider } from "./componentes/ThemeContext";
 import { CartProvider } from "./componentes/CartContext";
 import AnuncioRotativo from "./componentes/AnuncioRotativo";
+import { SpeedInsights } from "@vercel/speed-insights/react";
+import DeveloperAd from './componentes/DeveloperAd';
 
 const Login = lazy(() => import("./componentes/Login"));
 const Home = lazy(() => import("./componentes/Home"));
 const ItemListContainer = lazy(() => import("./componentes/ItemListContainer"));
-const ItemDetailContainer = lazy(() =>
-  import("./componentes/ItemDetailContainer")
-);
+const ItemDetailContainer = lazy(() => import("./componentes/ItemDetailContainer"));
 const Checkout = lazy(() => import("./componentes/Checkout"));
 const OrderConfirmation = lazy(() => import("./componentes/OrderConfirmation"));
 const Footer = lazy(() => import("./componentes/Footer"));
-import { SpeedInsights } from "@vercel/speed-insights/react";
+const Contact = lazy(() => import("./componentes/Contact"));
 
 const LoadingSpinner = () => (
   <div className="loading-spinner">
     <div className="spinner"></div>
-    <p></p>
+    <p>Cargando...</p>
   </div>
 );
 
@@ -64,36 +64,17 @@ function AppContent() {
     <div className="App">
       <AnuncioRotativo />
       <NavBar />
+      <DeveloperAd />
       <Suspense fallback={<LoadingSpinner />}>
         <Routes>
           <Route path="/login" element={!usuario ? <Login /> : <Navigate to="/" />} />
-          <Route 
-            path="/" 
-            element={<Home correoUsuario={usuario ? usuario.email : null} />} 
-          />
+          <Route path="/" element={<Home correoUsuario={usuario ? usuario.email : null} />} />
           <Route path="/products" element={<ItemListContainer />} />
           <Route path="/category/:categoryId" element={<ItemListContainer />} />
           <Route path="/item/:itemId" element={<ItemDetailContainer />} />
-          <Route
-            path="/checkout"
-            element={
-              usuario ? (
-                <Checkout />
-              ) : (
-                <Navigate to="/login" state={{ from: "/checkout" }} />
-              )
-            }
-          />
-          <Route
-            path="/order-confirmation/:orderId"
-            element={
-              usuario ? (
-                <OrderConfirmation />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+          <Route path="/checkout" element={usuario ? <Checkout /> : <Navigate to="/login" state={{ from: "/checkout" }} />} />
+          <Route path="/order-confirmation/:orderId" element={usuario ? <OrderConfirmation /> : <Navigate to="/login" />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <Footer />

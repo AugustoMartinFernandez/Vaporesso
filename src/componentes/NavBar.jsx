@@ -14,7 +14,6 @@ const NavBar = () => {
   const user = auth.currentUser;
   const navigate = useNavigate();
 
-  // Función para cerrar el menú
   const handleNavLinkClick = () => {
     setExpanded(false);
   };
@@ -22,7 +21,7 @@ const NavBar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/"); // Redirige al inicio después de cerrar sesión
+      navigate("/");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
@@ -54,6 +53,9 @@ const NavBar = () => {
             </Nav.Link>
             <Nav.Link as={Link} to="/category/Descartable" onClick={handleNavLinkClick}>
               Descartables
+            </Nav.Link>
+            <Nav.Link as={Link} to="/contact" onClick={handleNavLinkClick}>
+              Contacto
             </Nav.Link>
           </Nav>
           {user && (

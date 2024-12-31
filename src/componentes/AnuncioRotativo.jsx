@@ -44,3 +44,6 @@ const AnuncioRotativo = () => {
 };
 
 export default AnuncioRotativo;
+
+
+// No actualizado

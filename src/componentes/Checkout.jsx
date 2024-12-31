@@ -182,7 +182,7 @@ const Checkout = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Ej: Juan Pérez"
+              placeholder="Ej: Martin Fernandez"
               required
             />
             {formData.name && validateField("name", formData.name) && (
@@ -216,7 +216,7 @@ const Checkout = () => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Ej: 1234567890"
+              placeholder="Ej: +54 3815949243"
               required
             />
             {formData.phone && validateField("phone", formData.phone) && (
@@ -236,7 +236,7 @@ const Checkout = () => {
               name="province"
               value={formData.province}
               onChange={handleChange}
-              placeholder="Ej: Buenos Aires"
+              placeholder="Ej: Tucuman"
               required
             />
           </div>
@@ -248,7 +248,7 @@ const Checkout = () => {
               name="city"
               value={formData.city}
               onChange={handleChange}
-              placeholder="Ej: Buenos Aires"
+              placeholder="Ej: San Miguel de Tucuman"
               required
             />
           </div>
@@ -328,3 +328,6 @@ const Checkout = () => {
 };
 
 export default Checkout;
+
+
+// CODIGO ACTUALIZADO

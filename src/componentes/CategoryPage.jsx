@@ -4,8 +4,7 @@ import ItemListContainer from './ItemListContainer';
 
 const categoryNames = {
   '1': 'Recargables',
-  '2': 'Descartables',
-  '3': 'Puff'
+  '2': 'Descartables'
 };
 
 const CategoryPage = () => {
@@ -24,4 +23,4 @@ const CategoryPage = () => {
 
 export default CategoryPage;
 
-// CODIGO NO ACTUALIZADO
+// CODIGO ACTUALIZADO, SAQUE LA CATEGORIA DE PUFF
