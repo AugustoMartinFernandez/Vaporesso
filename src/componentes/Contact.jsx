@@ -122,7 +122,7 @@ const Contact = () => {
           <span>Horario de atención: Lunes a Viernes de 9:00 a 18:00</span>
         </div>
       </div>
-      <a href="https://wa.me/1234567890" className="whatsapp-float" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/3815949243" className="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <FaWhatsapp size={32} />
       </a>
     </div>
