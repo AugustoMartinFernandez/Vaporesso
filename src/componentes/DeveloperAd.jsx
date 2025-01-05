@@ -31,7 +31,7 @@ const DeveloperAd = () => {
       <div className="ad-content">
         <h3>
           NeoVape fue creada por
-          <span className="highlighted-name">Martin Fernandez</span>
+          <span className="highlighted-name"> Martin Fernandez</span>
         </h3>
         <p>FrontEnd Developer React</p>
         <img

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
   collection,
@@ -13,6 +14,7 @@ import { db, auth } from "../credenciales";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaStar, FaClock } from "react-icons/fa";
 
+// eslint-disable-next-line react/prop-types
 const ProductReviews = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
@@ -138,7 +140,7 @@ const ProductReviews = ({ productId }) => {
           </button>
         </form>
       ) : (
-        <p className="login-prompt">Inicia sesión para dejar una reseña</p>
+        <p style={{color:"#8a2be2"}} className="login-prompt">Inicia sesión para dejar una reseña</p>
       )}
     </div>
   );

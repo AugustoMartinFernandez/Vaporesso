@@ -76,7 +76,7 @@ const Login = () => {
         <div className="info-content">
           <h1>Bienvenidos a <span style={{color:"#8a2be2",fontWeight:"900"}}>N</span>eo<span style={{color:"#8a2be2",fontWeight:"800"}}>V</span>ape</h1>
           <p className="login-intro">
-            Para proceder con la compra, debes iniciar sesión por medidas de seguridad. Disfruta de una experiencia personalizada y segura.
+            Para proceder con la compra, debes iniciar sesión por medidas de seguridad. <br /> Disfruta de una experiencia personalizada y segura.
           </p>
           <div className="security-info">
             <h3>Seguridad y Privacidad</h3>

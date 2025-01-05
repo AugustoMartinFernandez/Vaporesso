@@ -2253,6 +2253,9 @@ body.light-theme .submit-review-button:disabled {
   margin-top: 16px;
   color: #666;
   font-size: 14px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Modo oscuro */
@@ -2331,19 +2334,13 @@ body::after {
 
 @keyframes borderColor {
   0% {
-    border-color: #8a2be2;
-  }
-  25% {
-    border-color: yellow;
+    border-color: #8a2be2; /* Morado */
   }
   50% {
-    border-color: white;
-  }
-  75% {
-    border-color: black;
+    border-color: #000; /* Negro */
   }
   100% {
-    border-color: #8a2be2;
+    border-color: #8a2be2; /* Morado */
   }
 }
 
@@ -2485,6 +2482,8 @@ body::after {
 .light-theme .social-linkss a:hover {
   color: black !important;
 }
+
+
 
 @media (max-width: 768px) {
   body {
@@ -2936,3 +2935,4 @@ body::after {
     font-size: 1rem;
   }
 }
+
