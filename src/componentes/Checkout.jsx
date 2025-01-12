@@ -130,16 +130,21 @@ const Checkout = () => {
           picturUrl: item.picturUrl,
         })),
         total: cartTotal,
+        shippingCost: cartTotal >= 50000 ? 0 : cartTotal * 0.15,
+        finalTotal: cartTotal + (cartTotal >= 50000 ? 0 : cartTotal * 0.15),
         date: new Date(),
         status: "generada",
       };
+
       const docRef = await addDoc(collection(db, "orders"), order);
+
       for (const item of cartItems) {
         const productRef = doc(db, "products", item.id);
         await updateDoc(productRef, {
           stock: increment(-item.quantity),
         });
       }
+
       clearCart();
       toast.success("¡Orden creada exitosamente!");
       navigate(`/order-confirmation/${docRef.id}`);
@@ -165,8 +170,22 @@ const Checkout = () => {
           </div>
         ))}
         <div className="order-total">
-          <span>Total a pagar</span>
+          <span>Subtotal</span>
           <span>{formatCurrency(cartTotal)}</span>
+        </div>
+        <div className="order-total">
+          <span>Envío</span>
+          <span>
+            {cartTotal >= 50000 ? "Gratis" : formatCurrency(cartTotal * 0.15)}
+          </span>
+        </div>
+        <div className="order-total">
+          <span>Total a pagar</span>
+          <span>
+            {formatCurrency(
+              cartTotal + (cartTotal >= 50000 ? 0 : cartTotal * 0.15)
+            )}
+          </span>
         </div>
       </div>
       <form onSubmit={handleSubmit} className="checkout-form">
@@ -328,6 +347,5 @@ const Checkout = () => {
 };
 
 export default Checkout;
-
 
 // CODIGO ACTUALIZADO

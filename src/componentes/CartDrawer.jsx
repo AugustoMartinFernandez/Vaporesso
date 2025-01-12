@@ -289,7 +289,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
               <div className="d-flex align-items-center gap-2 mt-3">
                 <Shield size={20} className="text-warning" />
                 <span className="small text-muted">
-                  Todos lo pagos estan protegidos y si no estas conforme con la compra de tu producto te devolvemos el dinero.
+                  Todos los pagos están protegidos y si no estás conforme con la compra de tu producto te devolvemos el dinero.
                 </span>
               </div>
             </div>
@@ -331,5 +331,3 @@ const CartDrawer = ({ isOpen, onClose }) => {
 };
 
 export default CartDrawer;
-
-// codigo actualizado
