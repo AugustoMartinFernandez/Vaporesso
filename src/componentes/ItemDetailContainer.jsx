@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
@@ -82,11 +81,17 @@ const ItemDetailContainer = () => {
   };
 
   const handleAddToCart = async () => {
-    const availableStock = getAvailableStock();
+    const availableStock = getAvailableStock(); // Obtiene el stock disponible
     if (selectedQuantity > availableStock) {
       toast.error(`Solo hay ${availableStock} unidades disponibles`);
       return;
     }
+
+    if (isInCart(item.id)) {
+      toast.error("Este producto ya está en el carrito.");
+      return;
+    }
+
     setAddingToCart(true);
     try {
       await addToCart(
@@ -232,9 +237,7 @@ const ItemDetailContainer = () => {
                 value={selectedQuantity}
                 onChange={handleQuantityChange}
                 className="quantity-select"
-                disabled={
-                  availableStock === 0 || addingToCart || operationLoading
-                }
+                disabled={availableStock === 0 || addingToCart || operationLoading}
               >
                 {Array.from({ length: availableStock }, (_, i) => (
                   <option key={i + 1} value={i + 1}>
@@ -248,9 +251,7 @@ const ItemDetailContainer = () => {
             </div>
             <button
               className="item-cart-button"
-              disabled={
-                availableStock === 0 || addingToCart || operationLoading
-              }
+              disabled={availableStock === 0 || addingToCart || operationLoading}
               onClick={handleAddToCart}
             >
               {availableStock === 0 ? (
@@ -283,6 +284,3 @@ const ItemDetailContainer = () => {
 };
 
 export default ItemDetailContainer;
-
-
-// CODIGO NO ACTUALIZADO

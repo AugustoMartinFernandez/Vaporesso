@@ -33,19 +33,24 @@ const Item = ({ item }) => {
 
   return (
     <div className="item-card">
-      <Link to={`/item/${item.id}`} className="item-link">
-        {item.picturUrl && (
-          <img
-            src={item.picturUrl}
-            alt={item.title}
-            className="item-image"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/placeholder-image.jpg";
-            }}
-          />
-        )}
-      </Link>
+<Link to={`/item/${item.id}`} className="item-link">
+  {item.picturUrl && (
+    <div className="image-container">
+      <img
+        src={item.picturUrl}
+        alt={item.title}
+        className="item-image"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "/placeholder-image.jpg";
+        }}
+      />
+      <div className="image-click-overlay">
+        <span>Click para ver más detalles</span>
+      </div>
+    </div>
+  )}
+</Link>
       <h2 className="item-title">{item.title}</h2>
       <p className="item-description">{item.description}</p>
       <div

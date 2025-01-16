@@ -1053,13 +1053,67 @@ h5 {
   display: flex;
   width: 100%;
   overflow: hidden;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-click-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(138, 43, 226, 0.8);
+  color: white;
+  padding: 8px;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover .image-click-overlay {
+  transform: translateY(0);
 }
 
 .image {
-  flex: 1;
+  width: 100%;
   height: 300px;
   object-fit: cover;
-  background-color: #000000;
+  transition: transform 0.3s ease;
+  border-radius: 3%;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  padding: 20px;
+  color: white;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.image-container:hover .image-overlay {
+  transform: translateY(0);
+}
+
+.image-overlay h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #8a2be2;
+}
+
+.image-overlay p {
+  margin: 5px 0 0;
+  font-size: 1rem;
+  color: #ffffff;
 }
 /* CONTENEDOR DEL LOGIN*/
 .login-page {
@@ -2594,10 +2648,10 @@ body::after {
   }
 
   .hero-section {
-    background-image: url("https://cdn.pixabay.com/photo/2020/04/13/18/10/vape-5039608_1280.jpg");
+    background-image: url("https://vape-distri.com/img/cms/AIRFLOW%20GEN%20AIR%204.gif");
     background-size: cover;
     background-position: center;
-    height: 90vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2727,14 +2781,15 @@ body::after {
   }
 
   .image-section {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
+    padding: 1.5rem !important;
   }
-
+  
   .image {
-    flex: 1;
-    height: 110px;
-    object-fit: cover;
+    height: auto;
+    overflow: hidden;
   }
 
   .image:first-child {
@@ -2828,7 +2883,7 @@ body::after {
     width: min-content;
   }
   body:not(.light-theme) .titulo {
-    margin-right: 60px;
+    margin-right: 20px;
   }
   body.light-theme .titulo {
     margin-right: 60px;
@@ -2933,6 +2988,14 @@ body::after {
 
   .ad-content p {
     font-size: 1rem;
+  }
+  .image-click-overlay {
+    transform: translateY(0);
+    background: #1a1a1ac2;
+    color: white;
+  }
+  .item-list {
+    overflow: hidden;
   }
 }
 

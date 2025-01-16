@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { toast } from "react-hot-toast";
@@ -12,8 +12,33 @@ export const CartProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [operationLoading, setOperationLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [reservedItems, setReservedItems] = useState(new Set());
+  const [cartCache, setCartCache] = useState(new Map());
 
+  const saveCartToLocalStorage = (items) => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  };
+
+  // Función para obtener productos del caché o desde Firebase
+  const getProductFromCache = async (productId) => {
+    if (cartCache.has(productId)) {
+      return cartCache.get(productId);
+    }
+    try {
+      const docRef = doc(db, "products", productId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const productData = docSnap.data();
+        setCartCache((prev) => new Map(prev).set(productId, productData));
+        return productData;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error al obtener producto:", error);
+      return null;
+    }
+  };
+
+  // Cargar carrito desde almacenamiento local y verificar stock
   const loadSavedCart = async () => {
     setLoading(true);
     try {
@@ -22,25 +47,15 @@ export const CartProvider = ({ children }) => {
         const items = JSON.parse(savedCart);
         const updatedItems = await Promise.all(
           items.map(async (item) => {
-            try {
-              const docRef = doc(db, "products", item.id);
-              const docSnap = await getDoc(docRef);
-              if (docSnap.exists()) {
-                const currentStock = docSnap.data().stock;
-                if (currentStock < item.quantity) {
-                  toast.warning(`Stock actualizado para ${item.title}`);
-                }
-                return {
-                  ...item,
-                  quantity: Math.min(item.quantity, currentStock),
-                  stock: currentStock,
-                };
-              }
-              return null;
-            } catch (error) {
-              console.error(`Error al verificar stock para ${item.id}:`, error);
-              return null;
+            const cachedProduct = await getProductFromCache(item.id);
+            if (cachedProduct) {
+              return {
+                ...item,
+                quantity: Math.min(item.quantity, cachedProduct.stock),
+                stock: cachedProduct.stock,
+              };
             }
+            return null;
           })
         );
         const validItems = updatedItems.filter((item) => item !== null);
@@ -59,21 +74,16 @@ export const CartProvider = ({ children }) => {
     loadSavedCart();
   }, []);
 
-  const saveCartToLocalStorage = (items) => {
-    localStorage.setItem("cart", JSON.stringify(items));
-  };
-
-  const isInCart = (productId) => {
-    return cartItems.some((item) => item.id === productId);
-  };
+  useEffect(() => {
+    return () => setCartCache(new Map());
+  }, []);
 
   const addToCart = async (product, quantity) => {
     setOperationLoading(true);
     try {
-      const docRef = doc(db, "products", product.id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const currentStock = docSnap.data().stock;
+      const cachedProduct = await getProductFromCache(product.id);
+      if (cachedProduct) {
+        const currentStock = cachedProduct.stock;
         const existingItem = cartItems.find((item) => item.id === product.id);
         const currentQuantity = existingItem ? existingItem.quantity : 0;
 
@@ -85,11 +95,7 @@ export const CartProvider = ({ children }) => {
         const newItems = existingItem
           ? cartItems.map((item) =>
               item.id === product.id
-                ? {
-                    ...item,
-                    quantity: item.quantity + quantity,
-                    stock: currentStock,
-                  }
+                ? { ...item, quantity: item.quantity + quantity, stock: currentStock }
                 : item
             )
           : [...cartItems, { ...product, quantity, stock: currentStock }];
@@ -108,45 +114,23 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const removeFromCart = async (productId) => {
-    setOperationLoading(true);
-    try {
-      const newItems = cartItems.filter((item) => item.id !== productId);
-      setCartItems(newItems);
-      saveCartToLocalStorage(newItems);
-      toast.success("Producto eliminado del carrito");
-    } catch (error) {
-      console.error("Error al eliminar del carrito:", error);
-      toast.error("Error al eliminar el producto");
-    } finally {
-      setOperationLoading(false);
-    }
+  const removeFromCart = (productId) => {
+    const newItems = cartItems.filter((item) => item.id !== productId);
+    setCartItems(newItems);
+    saveCartToLocalStorage(newItems);
+    toast.success("Producto eliminado del carrito");
   };
 
   const updateQuantity = async (productId, newQuantity) => {
-    setOperationLoading(true);
-    try {
-      const docRef = doc(db, "products", productId);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const currentStock = docSnap.data().stock;
-        if (newQuantity > currentStock) {
-          toast.error(`Solo hay ${currentStock} unidades disponibles`);
-          return;
-        }
-        const newItems = cartItems.map((item) =>
-          item.id === productId
-            ? { ...item, quantity: newQuantity, stock: currentStock }
-            : item
-        );
-        setCartItems(newItems);
-        saveCartToLocalStorage(newItems);
-      }
-    } catch (error) {
-      console.error("Error al actualizar cantidad:", error);
-      toast.error("Error al actualizar la cantidad");
-    } finally {
-      setOperationLoading(false);
+    const cachedProduct = await getProductFromCache(productId);
+    if (cachedProduct && newQuantity <= cachedProduct.stock) {
+      const newItems = cartItems.map((item) =>
+        item.id === productId ? { ...item, quantity: newQuantity } : item
+      );
+      setCartItems(newItems);
+      saveCartToLocalStorage(newItems);
+    } else {
+      toast.error(`Cantidad inválida. Stock disponible: ${cachedProduct?.stock}`);
     }
   };
 
@@ -157,37 +141,35 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartTotal = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-  return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        getCartTotal,
-        isInCart,
-        loading,
-        operationLoading,
-        error,
-        reservedItems,
-        itemCount,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
+  const isInCart = (productId) => {
+    return cartItems.some((item) => item.id === productId);
+  };
+
+  const value = {
+    cartItems,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getCartTotal,
+    itemCount,
+    loading,
+    operationLoading,
+    error,
+    isInCart,
+    setCartItems,
+    setLoading,
+    setOperationLoading,
+    setError,
+  };
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
 
 export { CartContext };
 
-
-// codigo no actualizado
