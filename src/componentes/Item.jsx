@@ -46,7 +46,7 @@ const Item = ({ item }) => {
         }}
       />
       <div className="image-click-overlay">
-        <span>Click para ver más detalles</span>
+        <span>Ver Producto...</span>
       </div>
     </div>
   )}
